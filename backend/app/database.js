@@ -9,10 +9,41 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DB
 }).promise();
 
-const getBlogs = async () =>{
-    const [ result ] = await pool.query(`SELECT * FROM blogs;`);
-    console.log(result);
-    return result;
+const getAll = async (entity) =>{   
+    try{
+        const [ data ] = await pool.query(`SELECT * FROM ??`,[ entity ]);
+        return {
+            data,
+            error: null
+        }
+    } catch(error){
+        return {
+            data: null,
+            error: error.code
+        }
+    }
 }
 
-export { getBlogs };
+const getSingle = async (entity, attribute, value) =>{
+    try{
+        const [ data ] = await pool.query(`SELECT * FROM ?? WHERE ?? = ?`, [ entity, attribute, value ]);
+        if(data.length === 0){
+            return {
+                data: null,
+                error: null
+            }
+        }
+        return {
+            data: data[0],
+            error: null
+        }
+    } catch(error){
+        return {
+            data: null,
+            error: error.code
+        }
+    }
+}
+
+
+export { getAll, getSingle };
