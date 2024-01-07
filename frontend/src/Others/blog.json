@@ -1,0 +1,20 @@
+[
+  {
+    "title": "The Art of Architectural Design",
+    "content": "Architectural design is a creative process that involves planning, creating, and implementing architectural structures...",
+    "publishDate": "2024-02-01",
+    "author": "Architect A. Designer"
+  },
+  {
+    "title": "Sustainable Architecture: Building for the Future",
+    "content": "Sustainable architecture focuses on minimizing the environmental impact of buildings and creating structures that are energy-efficient...",
+    "publishDate": "2024-02-05",
+    "author": "Green Builder"
+  },
+  {
+    "title": "Modern Trends in Residential Architecture",
+    "content": "Explore the latest trends in residential architecture, including open floor plans, smart home technology, and eco-friendly features...",
+    "publishDate": "2024-02-10",
+    "author": "Home Design Enthusiast"
+  }
+]
