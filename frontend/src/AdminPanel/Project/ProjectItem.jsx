@@ -15,15 +15,11 @@ const ProjectItem = ({ project }) => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json();
-        //const imageData=await data.image.data.blob();
-        const blob = new Blob([new Uint8Array(data.image.data)], { type: 'image/png' });
-
-        console.log(data.image);
+       
+        const { ProjectImage } = await response.json();
+        const blob = new Blob([new Uint8Array(ProjectImage.data)], { type: 'image/png' });
 
         const imageUrl = URL.createObjectURL(blob);
-
-        //const objectURL = URL.createObjectURL(imageData);
         
         setImageSrc(imageUrl);
 
