@@ -1,8 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const ProjectItem = ({ project }) => {
+  const [imageSrc, setImageSrc] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/projects/${project.ProjectID}`);
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        //const imageData=await data.image.data.blob();
+        const blob = new Blob([new Uint8Array(data.image.data)], { type: 'image/png' });
+
+        console.log(data.image);
+
+        const imageUrl = URL.createObjectURL(blob);
+
+        //const objectURL = URL.createObjectURL(imageData);
+        
+        setImageSrc(imageUrl);
+
+      } catch (error) {
+        console.error("Error fetching image:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+
+    fetchImage();
+  }, [project.ProjectID]);
+
+  if (loading) {
+    return (
+      <div className="bg-white p-6 rounded-md shadow-md">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-white p-6 rounded-md shadow-md">
+        <p>Error fetching image: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white p-6 rounded-md shadow-md">
+            {imageSrc && (
+        <div className="mt-4">
+          <img
+            src={imageSrc}
+            alt="Project"
+            className="max-w-full h-auto"
+          />
+        </div>
+      )}
       <h2 className="text-xl font-bold mb-4">{project.ProjectName}</h2>
       <p className="mb-2">Description: {project.ProjectDescription}</p>
       <p className="mb-2">Start Date: {project.StartDate}</p>
