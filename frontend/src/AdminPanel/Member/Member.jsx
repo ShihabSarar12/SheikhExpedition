@@ -1,20 +1,34 @@
-import React from "react";
+
+import React, { useState, useEffect } from 'react';
 import MemberItem from "./MemberItem";
 
-const Member = () => {
-    const members = require('../Others/member.json');
+const Members = () => {
+  const [members, setMembers] = useState([]);
 
-    return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4">Members Page</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {members.map((member, index) => (
-            <MemberItem key={index} member={member} />
-          ))}
-        </div>
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/teammembers');
+        const data = await response.json();
+        setMembers(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Members Page</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {members.map((member) => (
+          <MemberItem key={member.id} member={member} />
+        ))}
       </div>
-    );
-  };
-  
+    </div>
+  );
+};
 
-export default Member;
+export default Members;
