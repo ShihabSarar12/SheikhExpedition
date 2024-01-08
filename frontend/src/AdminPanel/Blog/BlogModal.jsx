@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Trash2, Edit } from "lucide-react"; 
+import { Trash2, Edit } from "lucide-react";
 
-const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
+const BlogModal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
           <div className="mb-4">
             <img
               src={imageURL}
-              alt="Project"
+              alt="Blog"
               className="max-w-full h-auto rounded-md"
             />
           </div>
@@ -39,4 +39,4 @@ const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
   );
 };
 
-export default Modal;
+export default BlogModal;
