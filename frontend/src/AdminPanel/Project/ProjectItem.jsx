@@ -17,11 +17,14 @@ const ProjectItem = ({ project }) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const { ProjectImage } = await response.json();
-        const blob = new Blob([new Uint8Array(ProjectImage.data)], { type: 'image/png' });
+        const data = await response.json();
+
+        const blob = new Blob([new Uint8Array(data.image.data)], {
+          type: "image/png",
+        });
 
         const imageUrl = URL.createObjectURL(blob);
-        
+
         setImageSrc(imageUrl);
       } catch (error) {
         console.error("Error fetching image:", error);
