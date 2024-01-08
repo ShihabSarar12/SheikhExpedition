@@ -1,8 +1,8 @@
-// Modal.js
 import React from "react";
 import ReactDOM from "react-dom";
+import { Trash2, Edit } from "lucide-react"; 
 
-const Modal = ({ isOpen, onClose, children, imageURL }) => {
+const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
   if (!isOpen) return null;
 
   return ReactDOM.createPortal(
@@ -25,6 +25,14 @@ const Modal = ({ isOpen, onClose, children, imageURL }) => {
           </div>
         )}
         {children}
+        <div className="flex justify-end absolute bottom-2 right-2">
+          <button className="mr-2" onClick={onEdit}>
+            <Edit size={20} />
+          </button>
+          <button onClick={onDelete}>
+            <Trash2 size={20} />
+          </button>
+        </div>
       </div>
     </div>,
     document.body
