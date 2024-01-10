@@ -31,8 +31,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8 lg:p-12">
-      <h1 className="text-3xl font-bold mb-4">Dashboard Page</h1>
+    <div className="container mx-auto p-4 md:p-8 lg:p-12 ml-64 mr-64">
+      <h1 className="text-center text-3xl font-bold mb-4 ">Dashboard Page</h1>
       {ownerInfo && (
         <div className="bg-white p-4 md:p-6 lg:p-8 rounded-md shadow-md">
           <h2 className="text-xl font-bold mb-4">Owner Information</h2>

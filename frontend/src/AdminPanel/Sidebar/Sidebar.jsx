@@ -20,8 +20,11 @@ export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className={`h-screen ${expanded ? "w-64" : "w-16"}`}>
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
+    
+    <aside className={` fixed top-0 left-0 ${
+      expanded ? "w-64 " : "w-16" 
+    } bg-dark-purple h-screen relative duration-300 `}>
+      <nav className=" h-full flex flex-col bg-white border-r shadow-s ">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Link to="/dashboard">
             <img
