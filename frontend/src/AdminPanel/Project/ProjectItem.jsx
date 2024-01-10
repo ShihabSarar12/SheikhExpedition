@@ -8,12 +8,11 @@ const ProjectItem = ({ project }) => {
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/projects/${project.ProjectID}`);
+        const response = await fetch(`http://localhost:8080/projects/${project.ProjectID}`); //Database id
     
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const { ProjectImage } = await response.json();
         const blob = new Blob([new Uint8Array(ProjectImage.data)], { type: 'image/png' });
 
