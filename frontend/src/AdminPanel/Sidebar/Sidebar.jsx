@@ -5,12 +5,6 @@ import logo from '../Others/logo.png';
 import {
   ChevronLast,
   ChevronFirst,
-  LayoutDashboard,
-  Book,
-  Folder,
-  Users,
-  LifeBuoy,
-  Settings,
   MoreVertical,
 } from "lucide-react";
 
