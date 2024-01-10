@@ -14,7 +14,23 @@ const Blogs = () => {
         console.error('Error fetching data:', error);
       }
     };
+    //TODO working code but have to implement
+    // const postData = async () =>{
+    //   const response = await fetch(`http://localhost:8080/blogs`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-type": "application/json; charset=UTF-8"
+    //     },
+    //     body: JSON.stringify({
+    //       BlogTitle: 'How to get into engineering?10156 alvi bc',
+    //       BlogContent: 'Description goes here',
+    //       BlogAuthor: 'Shihab Sarar'
+    //     })
+    //   });
+    //   console.log(response);
+    // }
 
+    // postData();
     fetchData();
   }, []);
 

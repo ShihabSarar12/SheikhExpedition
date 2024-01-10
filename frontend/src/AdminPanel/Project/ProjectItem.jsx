@@ -6,7 +6,6 @@ const ProjectItem = ({ project }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchImage = async () => {
       try {
         const response = await fetch(`http://localhost:8080/projects/${project.ProjectID}`); //Database id
@@ -14,8 +13,6 @@ const ProjectItem = ({ project }) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        
-       
         const { ProjectImage } = await response.json();
         const blob = new Blob([new Uint8Array(ProjectImage.data)], { type: 'image/png' });
 
@@ -52,22 +49,24 @@ const ProjectItem = ({ project }) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-md shadow-md">
-            {imageSrc && (
+    <div className="bg-white p-6 rounded-md shadow-md gap-2">
+      {imageSrc && (
         <div className="mt-4">
           <img
             src={imageSrc}
             alt="Project"
-            className="max-w-full h-auto"
+            className="max-w-full h-60 rounded-2xl"
           />
         </div>
       )}
-      <h2 className="text-xl font-bold mb-4">{project.ProjectName}</h2>
-      <p className="mb-2">Description: {project.ProjectDescription}</p>
-      <p className="mb-2">Start Date: {project.StartDate}</p>
-      <p className="mb-2">End Date: {project.EndDate}</p>
-      <p className="mb-2">Budget: ${project.Budget}</p>
-      <p>Status: {project.Status}</p>
+      <div>
+        <h2 className="text-xl font-bold mb-4">{project.ProjectName}</h2>
+        <p className="mb-2">Description: {project.ProjectDescription}</p>
+        <p className="mb-2">Start Date: {project.StartDate}</p>
+        <p className="mb-2">End Date: {project.EndDate}</p>
+        <p className="mb-2">Budget: ${project.Budget}</p>
+        <p>Status: {project.Status}</p>
+      </div>
     </div>
   );
 };
