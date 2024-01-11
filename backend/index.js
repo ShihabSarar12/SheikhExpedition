@@ -54,12 +54,12 @@ app.get('/:entity/:id', async (req, res) =>{
 });
 
 app.post('/blogs', async (req, res)=>{
-    const { BlogTitle, BlogContent, BlogAuthor } = req.body;
-    if(!BlogTitle || !BlogContent || !BlogAuthor){
+    const { BlogTitle, BlogContent, BlogImage, BlogAuthor } = req.body;
+    if(!BlogTitle || !BlogContent || !BlogImage || !BlogAuthor){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await insertBlog(BlogTitle, BlogContent, BlogAuthor);
+    const { data, success, error } = await insertBlog(BlogTitle, BlogContent, BlogImage, BlogAuthor);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -76,12 +76,12 @@ app.post('/blogs', async (req, res)=>{
 });
 
 app.post('/projects', async (req, res)=>{
-    const { ProjectName, ProjectDescription, StartDate, EndDate, Status, Budget } = req.body;
-    if(!ProjectName || !ProjectDescription || !StartDate || !EndDate || !Status || !Budget){
+    const { ProjectName, ProjectDescription, ProjectImage, StartDate, EndDate, Status, Budget } = req.body;
+    if(!ProjectName || !ProjectDescription || !ProjectImage || !StartDate || !EndDate || !Status || !Budget){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await insertProject(ProjectName, ProjectDescription, StartDate, EndDate, Status, Budget);
+    const { data, success, error } = await insertProject(ProjectName, ProjectDescription, ProjectImage, StartDate, EndDate, Status, Budget);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -98,12 +98,12 @@ app.post('/projects', async (req, res)=>{
 });
 
 app.post('/services', async (req, res)=>{
-    const { ServiceName, ServiceDescription, ServiceDuration } = req.body;
-    if(!ServiceName || !ServiceDescription || !ServiceDuration){
+    const { ServiceName, ServiceDescription, ServiceImage, ServiceDuration } = req.body;
+    if(!ServiceName || !ServiceDescription || !ServiceImage || !ServiceDuration){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await insertService(ServiceName, ServiceDescription, ServiceDuration);
+    const { data, success, error } = await insertService(ServiceName, ServiceDescription, ServiceImage,  ServiceDuration);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -120,12 +120,12 @@ app.post('/services', async (req, res)=>{
 });
 
 app.post('/teammembers', async (req, res)=>{
-    const { TeamMemberName, TeamMemberPosition, TeamMemberContact, TeamMemberEmail } = req.body;
-    if(!TeamMemberName || !TeamMemberPosition || !TeamMemberContact || !TeamMemberEmail){
+    const { TeamMemberName, TeamMemberImage, TeamMemberPosition, TeamMemberContact, TeamMemberEmail } = req.body;
+    if(!TeamMemberName || !TeamMemberImage || !TeamMemberPosition || !TeamMemberContact || !TeamMemberEmail){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await insertTeammember(TeamMemberName, TeamMemberPosition, TeamMemberContact, TeamMemberEmail);
+    const { data, success, error } = await insertTeammember(TeamMemberName, TeamMemberImage, TeamMemberPosition, TeamMemberContact, TeamMemberEmail);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -147,12 +147,12 @@ app.put('/blogs/:id', async (req, res) =>{
         res.status(423).send('Enter a valid id');
         return;
     }
-    const { BlogTitle, BlogContent, BlogAuthor } = req.body;
-    if(!BlogTitle || !BlogContent || !BlogAuthor){
+    const { BlogTitle, BlogContent, BlogImage, BlogAuthor } = req.body;
+    if(!BlogTitle || !BlogContent || !BlogImage || !BlogAuthor){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await updateBlog(id, BlogTitle, BlogContent, BlogAuthor);
+    const { data, success, error } = await updateBlog(id, BlogTitle, BlogContent, BlogImage, BlogAuthor);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -170,12 +170,12 @@ app.put('/services/:id', async (req, res) =>{
         res.status(423).send('Enter a valid id');
         return;
     }
-    const { ServiceName, ServiceDescription, ServiceDuration } = req.body;
-    if(!ServiceName || !ServiceDescription || !ServiceDuration){
+    const { ServiceName, ServiceDescription, ServiceImage, ServiceDuration } = req.body;
+    if(!ServiceName || !ServiceDescription || !ServiceImage || !ServiceDuration){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await updateService(id, ServiceName, ServiceDescription, ServiceDuration);
+    const { data, success, error } = await updateService(id, ServiceName, ServiceDescription, ServiceImage,  ServiceDuration);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -193,12 +193,12 @@ app.put('/projects/:id', async (req, res) =>{
         res.status(423).send('Enter a valid id');
         return;
     }
-    const { ProjectName, ProjectDescription, StartDate, EndDate, Status, Budget } = req.body;
-    if(!ProjectName || !ProjectDescription || !StartDate || !EndDate || !Status || !Budget){
+    const { ProjectName, ProjectDescription, ProjectImage, StartDate, EndDate, Status, Budget } = req.body;
+    if(!ProjectName || !ProjectDescription || !ProjectImage || !StartDate || !EndDate || !Status || !Budget){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await updateProject(id, ProjectName, ProjectDescription, StartDate, EndDate, Status, Budget);
+    const { data, success, error } = await updateProject(id, ProjectName, ProjectDescription, ProjectImage,  StartDate, EndDate, Status, Budget);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
@@ -216,12 +216,12 @@ app.put('/teammembers/:id', async (req, res) =>{
         res.status(423).send('Enter a valid id');
         return;
     }
-    const { TeamMemberName, TeamMemberPosition, TeamMemberContact, TeamMemberEmail } = req.body;
-    if(!TeamMemberName || !TeamMemberPosition || !TeamMemberContact || !TeamMemberEmail){
+    const { TeamMemberName, TeamMemberImage, TeamMemberPosition, TeamMemberContact, TeamMemberEmail } = req.body;
+    if(!TeamMemberName || !TeamMemberImage || !TeamMemberPosition || !TeamMemberContact || !TeamMemberEmail){
         res.status(423).send("Missing fields!");
         return;
     }
-    const { data, success, error } = await updateTeammember(id, TeamMemberName, TeamMemberPosition, TeamMemberContact, TeamMemberEmail);
+    const { data, success, error } = await updateTeammember(id, TeamMemberName, TeamMemberImage,  TeamMemberPosition, TeamMemberContact, TeamMemberEmail);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
         return;
