@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddBlog = () => {
-    const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
         BlogTitle: '',
         BlogContent: '',
@@ -25,7 +24,7 @@ const AddBlog = () => {
             const imageName = file.name;
             setFormValues({
                 ...formValues,
-                BlogImage: imageName,
+                BlogImage: null,
             });
         }
     };
@@ -45,7 +44,6 @@ const AddBlog = () => {
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
-                navigate('/blogs');
                 
             } else {
                 console.error('Error adding blog:', response.statusText);
