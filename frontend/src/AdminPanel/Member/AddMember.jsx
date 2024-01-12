@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AddBlog = () => {
-    const navigate=useNavigate('')
+const AddMember = () => {
+    const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
-        BlogTitle: '',
-        BlogContent: '',
-        BlogImage: '',
-        BlogPublishTime: '',
-        BlogAuthor: '',
+        TeamMemberName: '',
+        TeamMemberImage: '',
+        TeamMemberPosition: '',
+        TeamMemberContact: '',
+        TeamMemberEmail: '',
     });
 
     const handleInputChange = (e) => {
@@ -18,83 +18,69 @@ const AddBlog = () => {
             [name]: value,
         });
     };
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
             const image = file.name;
-    
-           formValues.BlogImage=image;
-            console.log(image)
+            setFormValues({
+                ...formValues,
+                TeamMemberImage: image,
+            });
+            console.log(image);
         }
-
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/blogs', {
+            const response = await fetch('http://localhost:8080/teammembers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formValues),
             });
-            console.log(formValues)
 
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
-                navigate('/blogs')
+                navigate('/team-members');
             } else {
-                console.error('Error adding blog:', response.statusText);
+                console.error('Error adding team member:', response.statusText);
             }
         } catch (error) {
-            console.error('Error adding blog:', error.message);
+            console.error('Error adding team member:', error.message);
         }
     };
 
     return (
         <div className="container mx-auto p-8 max-w-2xl">
-            <h1 className="text-3xl font-bold mb-4">Add Blog</h1>
+            <h1 className="text-3xl font-bold mb-4">Add Team Member</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="BlogTitle" className="block text-sm font-medium text-gray-700">
-                        Blog Title
+                    <label htmlFor="TeamMemberName" className="block text-sm font-medium text-gray-700">
+                        Team Member Name
                     </label>
                     <input
                         type="text"
-                        id="BlogTitle"
-                        name="BlogTitle"
-                        value={formValues.BlogTitle}
+                        id="TeamMemberName"
+                        name="TeamMemberName"
+                        value={formValues.TeamMemberName}
                         onChange={handleInputChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="BlogContent" className="block text-sm font-medium text-gray-700">
-                        Blog Content
-                    </label>
-                    <textarea
-                        id="BlogContent"
-                        name="BlogContent"
-                        value={formValues.BlogContent}
-                        onChange={handleInputChange}
-                        rows="4"
-                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    ></textarea>
-                </div>
-
-                <div>
-                    <label htmlFor="BlogImage" className="block text-sm font-medium text-gray-700">
-                        Blog Image
+                    <label htmlFor="TeamMemberImage" className="block text-sm font-medium text-gray-700">
+                        Team Member Image
                     </label>
                     <input
                         type="file"
-                        id="BlogImage"
-                        name="BlogImage"
+                        id="TeamMemberImage"
+                        name="TeamMemberImage"
                         accept="image/*"
                         onChange={handleImageChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
@@ -102,28 +88,42 @@ const AddBlog = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="BlogPublishTime" className="block text-sm font-medium text-gray-700">
-                        Blog Publish Time
+                    <label htmlFor="TeamMemberPosition" className="block text-sm font-medium text-gray-700">
+                        Team Member Position
                     </label>
                     <input
-                        type="date"
-                        id="BlogPublishTime"
-                        name="BlogPublishTime"
-                        value={formValues.BlogPublishTime}
+                        type="text"
+                        id="TeamMemberPosition"
+                        name="TeamMemberPosition"
+                        value={formValues.TeamMemberPosition}
                         onChange={handleInputChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="BlogAuthor" className="block text-sm font-medium text-gray-700">
-                        Blog Author
+                    <label htmlFor="TeamMemberContact" className="block text-sm font-medium text-gray-700">
+                        Team Member Contact
                     </label>
                     <input
                         type="text"
-                        id="BlogAuthor"
-                        name="BlogAuthor"
-                        value={formValues.BlogAuthor}
+                        id="TeamMemberContact"
+                        name="TeamMemberContact"
+                        value={formValues.TeamMemberContact}
+                        onChange={handleInputChange}
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                    />
+                </div>
+
+                <div>
+                    <label htmlFor="TeamMemberEmail" className="block text-sm font-medium text-gray-700">
+                        Team Member Email
+                    </label>
+                    <input
+                        type="text"
+                        id="TeamMemberEmail"
+                        name="TeamMemberEmail"
+                        value={formValues.TeamMemberEmail}
                         onChange={handleInputChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
@@ -142,4 +142,4 @@ const AddBlog = () => {
     );
 };
 
-export default AddBlog;
+export default AddMember;
