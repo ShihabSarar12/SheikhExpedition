@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ownerInfoData from "../Others/owner_info.json";
 
 const Dashboard = () => {
@@ -10,14 +10,12 @@ const Dashboard = () => {
   };
 
   const handleSaveClick = () => {
-    
-    
+    // Perform any save actions if needed
     setEditMode(false);
   };
 
   const handleCancelClick = () => {
-    
-    
+    // Reset ownerInfo to the original data
     setOwnerInfo(ownerInfoData);
     setEditMode(false);
   };
@@ -31,77 +29,93 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-8 lg:p-12">
-      <h1 className="text-3xl font-bold mb-4">Dashboard Page</h1>
+    <div className="container mx-auto px-4 md:p-8 lg:p-12">
+      <h1 className="text-5xl font-extrabold mb-8 text-center">Dashboard</h1>
       {ownerInfo && (
-        <div className="bg-white p-4 md:p-6 lg:p-8 rounded-md shadow-md">
-          <h2 className="text-xl font-bold mb-4">Owner Information</h2>
+        <div className="bg-orange-300 p-8 rounded-md shadow-md">
+          <h2 className="text-3xl font-bold mb-6 text-center">Owner Information</h2>
           {editMode ? (
-            <div>
-              <p>
-                Name:{" "}
+            <form>
+              <div className="mb-6">
+                <label className="block text-lg font-semibold mb-2" htmlFor="name">
+                  Name:
+                </label>
                 <input
                   type="text"
                   name="name"
                   value={ownerInfo.name}
                   onChange={handleInputChange}
-                  className="border p-2 rounded-md w-full"
+                  className="border p-4 rounded-md w-full"
                 />
-              </p>
-              <p>
-                Mobile Number:{" "}
+              </div>
+              <div className="mb-6">
+                <label className="block text-lg font-semibold mb-2" htmlFor="mobileNumber">
+                  Mobile Number:
+                </label>
                 <input
                   type="text"
                   name="mobileNumber"
                   value={ownerInfo.mobileNumber}
                   onChange={handleInputChange}
-                  className="border p-2 rounded-md w-full"
+                  className="border p-4 rounded-md w-full"
                 />
-              </p>
-              <p>
-                Email:{" "}
+              </div>
+              <div className="mb-6">
+                <label className="block text-lg font-semibold mb-2" htmlFor="email">
+                  Email:
+                </label>
                 <input
                   type="text"
                   name="email"
                   value={ownerInfo.email}
                   onChange={handleInputChange}
-                  className="border p-2 rounded-md w-full"
+                  className="border p-4 rounded-md w-full"
                 />
-              </p>
-              <p>
-                Company Name:{" "}
+              </div>
+              <div className="mb-6">
+                <label className="block text-lg font-semibold mb-2" htmlFor="companyName">
+                  Company Name:
+                </label>
                 <input
                   type="text"
                   name="companyName"
                   value={ownerInfo.companyName}
                   onChange={handleInputChange}
-                  className="border p-2 rounded-md w-full"
+                  className="border p-4 rounded-md w-full"
                 />
-              </p>
-              <div className="flex flex-col md:flex-row mt-4">
+              </div>
+              <div className="flex justify-center items-center">
                 <button
                   onClick={handleSaveClick}
-                  className="bg-green-500 text-white py-2 px-4 rounded-md mb-2 md:mb-0 md:mr-2"
+                  className="bg-green-500 text-white py-4 px-8 rounded-md mr-4"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancelClick}
-                  className="bg-gray-500 text-white py-2 px-4 rounded-md"
+                  className="bg-gray-500 text-white py-4 px-8 rounded-md"
                 >
                   Cancel
                 </button>
               </div>
-            </div>
+            </form>
           ) : (
-            <div>
-              <p>Name: {ownerInfo.name}</p>
-              <p>Mobile Number: {ownerInfo.mobileNumber}</p>
-              <p>Email: {ownerInfo.email}</p>
-              <p>Company Name: {ownerInfo.companyName}</p>
+            <div className="text-center">
+              <p className="mb-4">
+                <span className="text-2xl font-semibold">Name:</span> {ownerInfo.name}
+              </p>
+              <p className="mb-4">
+                <span className="text-2xl font-semibold">Mobile Number:</span> {ownerInfo.mobileNumber}
+              </p>
+              <p className="mb-4">
+                <span className="text-2xl font-semibold">Email:</span> {ownerInfo.email}
+              </p>
+              <p className="mb-4">
+                <span className="text-2xl font-semibold">Company Name:</span> {ownerInfo.companyName}
+              </p>
               <button
                 onClick={handleEditClick}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                className="bg-blue-500 text-white py-4 px-8 rounded-md mt-8"
               >
                 Edit
               </button>

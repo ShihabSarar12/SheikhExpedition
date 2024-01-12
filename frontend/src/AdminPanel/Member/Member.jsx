@@ -12,9 +12,9 @@ const Members = () => {
     }
 
     return (
-        <div className="mx-auto p-4">
-            <h1 className="text-center text-3xl font-bold mb-4">
-                Members Page
+        <div className="container mx-auto px-4 md:p-8 lg:p-12">
+            <h1 className="text-5xl font-extrabold mb-8 text-center">
+                Team Members
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {members.map((member) => (
