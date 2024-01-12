@@ -10,6 +10,7 @@ import Member from "../Member/Member";
 import MemberDetails from "../Member/MemberDetails";
 import ProjectDetails from "../Projects/ProjectDetails";
 import BlogDetails from "../Blog/BlogDetails";
+import AddBlog from "../Blog/AddBlog";
 
 export const routes = createBrowserRouter([
     {
@@ -55,6 +56,13 @@ export const routes = createBrowserRouter([
                 return fetch(`http://localhost:8080/blogs/${params.id}`);
             },
             element: <BlogDetails />
+        },
+        {
+            path: '/add-blog',
+            loader: async () =>{
+                return fetch(`http://localhost:8080/blogs`);
+            },
+            element: <AddBlog />
         },
         {
             path: '/services',
