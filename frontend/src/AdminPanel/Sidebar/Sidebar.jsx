@@ -1,4 +1,3 @@
-// Sidebar.jsx
 import React, { useContext, createContext, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from '../Others/logo.png';
@@ -123,3 +122,4 @@ export function SidebarItem({ icon, text, active, alert, to }) {
     </li>
   );
 }
+

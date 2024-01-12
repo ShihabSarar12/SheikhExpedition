@@ -26,10 +26,12 @@ const BlogModal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) =>
         )}
         {children}
         <div className="flex justify-end absolute bottom-2 right-2">
-          <button className="mr-2" onClick={onEdit}>
+          <button className="mr-2 p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-full"
+           onClick={onEdit}>
             <Edit size={20} />
           </button>
-          <button onClick={onDelete}>
+          <button className="p-2 bg-red-500 hover:bg-red-700 text-white rounded-full"
+           onClick={onDelete}>
             <Trash2 size={20} />
           </button>
         </div>

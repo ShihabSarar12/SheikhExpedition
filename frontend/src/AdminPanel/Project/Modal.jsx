@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Trash2, Edit } from "lucide-react"; 
+import { Trash2, Edit } from "lucide-react";
 
 const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
   if (!isOpen) return null;
@@ -10,7 +10,7 @@ const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
       <div className="bg-black opacity-50 fixed inset-0"></div>
       <div className="bg-white rounded-lg overflow-hidden z-10 p-8 max-w-3xl w-full max-h-screen overflow-y-auto relative">
         <button
-          className="absolute top-4 right-4 px-2 bg-red-600 text-white hover:text-gray-800"
+          className="absolute top-2 right-4 px-2 bg-red-600 text-white hover:text-gray-800 rounded-full"
           onClick={onClose}
         >
           &times;
@@ -25,11 +25,17 @@ const Modal = ({ isOpen, onClose, onEdit, onDelete, children, imageURL }) => {
           </div>
         )}
         {children}
-        <div className="flex justify-end absolute bottom-2 right-2">
-          <button className="mr-2" onClick={onEdit}>
+        <div className="flex justify-end mt-4">
+          <button
+            className="mr-2 p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-full"
+            onClick={onEdit}
+          >
             <Edit size={20} />
           </button>
-          <button onClick={onDelete}>
+          <button
+            className="p-2 bg-red-500 hover:bg-red-700 text-white rounded-full"
+            onClick={onDelete}
+          >
             <Trash2 size={20} />
           </button>
         </div>
