@@ -1,12 +1,12 @@
-import React from "react";
-import Adminpanel from "./AdminPanel/Adminpanel";
+import React from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { routes } from './AdminPanel/routes/routes';
 const App = () => {
-  return (
-
-    <Adminpanel/>
-    
-  );
+    return (
+        <>
+            <RouterProvider router={routes} />
+        </>
+    );
 };
 
 export default App;
-    //sheraa

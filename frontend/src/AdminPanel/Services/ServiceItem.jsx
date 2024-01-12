@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Help = () => {
+const ServiceItem = () => {
     return (
         <div>
-            <h1>Help Page</h1>
+            ServiceItems
         </div>
     );
 };
 
-export default Help;
+export default ServiceItem;
