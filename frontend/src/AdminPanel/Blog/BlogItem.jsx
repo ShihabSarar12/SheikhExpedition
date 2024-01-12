@@ -1,19 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const BlogItem = ({ blog }) => {
+const BlogItem = ({ blog, className }) => {
     return (
-        <div className="bg-white p-6 rounded-md shadow-md relative">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">{blog.BlogTitle}</h2>
+        <div className={`bg-white p-6 rounded-md shadow-md flex flex-col justify-between ${className}`}>
+            <div>
+                <h2 className="text-2xl font-bold mb-2">{blog.BlogTitle}</h2>
+                <p className="text-sm text-gray-700">Author: {blog.BlogAuthor}</p>
             </div>
-            <p>Author: {blog.BlogAuthor}</p>
-
-            <Link to={`/blogs/${blog.BlogID}`}>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded">
-                    See More
-                </button>
-            </Link>
+            <div className="mt-auto">
+                <Link to={`/blogs/${blog.BlogID}`} className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Read More
+                </Link>
+            </div>
         </div>
     );
 };
