@@ -13,9 +13,9 @@ const Members = () => {
     }
 
     return (
-        <div className="mx-auto p-4">
-            <h1 className="text-center text-3xl font-bold mb-4">
-                Members Page
+        <div className="container mx-auto px-4 md:p-8 lg:p-12">
+            <h1 className="text-5xl font-extrabold mb-8 text-center">
+                Team Members
             </h1>
             <Link to="/add-member" className="text-blue-500 text-2xl hover:text-blue-700 flex items-center pb-4">
                     <PlusCircle size={26} className=" text-center" />

@@ -4,7 +4,7 @@ import Navbar from './Navbar/Navbar';
 
 const Adminpanel = () => {
     return (
-        <div className="flex h-screen w-screen">
+        <div className="flex h-screen w-screen  bg-orange-100">
             <Navbar />
             <div className='w-full h-full flex justify-center'>
                 <Outlet />
