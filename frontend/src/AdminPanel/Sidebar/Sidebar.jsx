@@ -5,13 +5,13 @@ import logo from '../Others/logo.png';
 import { ChevronLast, ChevronFirst, MoreVertical } from 'lucide-react';
 
 const SidebarContext = createContext();
-
+//TODO make button redirect to link not text
 export default function Sidebar({ children }) {
     const [expanded, setExpanded] = useState(true);
 
     return (
         <aside
-            className={`sticky top-0 left-0 ${
+            className={`${
                 expanded ? 'w-64 ' : 'w-16'
             } bg-dark-purple h-screen relative duration-300 `}
         >
@@ -99,7 +99,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
                     }`}
                 />
             )}
-
+            {/* TODO have to fix expanded button hover z-index */}
             {!expanded && (
                 <div
                     className={`
