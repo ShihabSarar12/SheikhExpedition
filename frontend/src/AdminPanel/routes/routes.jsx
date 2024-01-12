@@ -11,6 +11,7 @@ import MemberDetails from "../Member/MemberDetails";
 import ProjectDetails from "../Projects/ProjectDetails";
 import BlogDetails from "../Blog/BlogDetails";
 import AddBlog from "../Blog/AddBlog";
+import AddProject from "../Projects/AddProject";
 
 export const routes = createBrowserRouter([
     {
@@ -44,6 +45,9 @@ export const routes = createBrowserRouter([
             element: <ProjectDetails />
         },
         {
+            path: '/add-project', element: <AddProject />
+        },
+        {
             path: '/blogs',
             loader: async () =>{
                 return fetch(`http://localhost:8080/blogs`);
@@ -58,11 +62,7 @@ export const routes = createBrowserRouter([
             element: <BlogDetails />
         },
         {
-            path: '/add-blog',
-            loader: async () =>{
-                return fetch(`http://localhost:8080/blogs`);
-            },
-            element: <AddBlog />
+            path: '/add-blog', element: <AddBlog />
         },
         {
             path: '/services',
