@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddProject = () => {
+    const navigate = useNavigate();
     const [formValues, setFormValues] = useState({
         ProjectName: '',
         ProjectDescription: '',
@@ -23,11 +24,12 @@ const AddProject = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const imageName = file.name;
+            const image = file.name;
             setFormValues({
                 ...formValues,
-                ProjectImage: imageName,
+                ProjectImage: image,
             });
+            console.log(image);
         }
     };
 
@@ -46,7 +48,7 @@ const AddProject = () => {
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
-                
+                navigate('/projects');
             } else {
                 console.error('Error adding project:', response.statusText);
             }
@@ -133,16 +135,14 @@ const AddProject = () => {
                     <label htmlFor="Status" className="block text-sm font-medium text-gray-700">
                         Status
                     </label>
-                    <select
+                    <input
+                        type="text"
                         id="Status"
                         name="Status"
                         value={formValues.Status}
                         onChange={handleInputChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    >
-                        <option value="completed">Completed</option>
-                        <option value="ongoing">Ongoing</option>
-                    </select>
+                    />
                 </div>
 
                 <div>
