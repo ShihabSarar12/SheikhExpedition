@@ -10,8 +10,9 @@ import {
 } from 'lucide-react';
 
 const Navbar = () => {
+    //TODO nav bar should be fixed in top-0 and left-0
     return (
-        <div className="fixed top-0 left-0 h-screen">
+        <div className="sticky top-0 left-0 h-screen">
             <Sidebar>
                 <SidebarItem
                     icon={<LayoutDashboard size={20} />}

@@ -6,7 +6,7 @@ const Members = () => {
     const members = useLoaderData();
 
     return (
-        <div className="mx-auto p-4 ml-64">
+        <div className="mx-auto p-4">
             <h1 className="text-center text-3xl font-bold mb-4 ">
                 Members Page
             </h1>
