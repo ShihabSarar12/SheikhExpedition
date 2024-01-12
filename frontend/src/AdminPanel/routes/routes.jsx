@@ -12,6 +12,7 @@ import ProjectDetails from "../Projects/ProjectDetails";
 import BlogDetails from "../Blog/BlogDetails";
 import AddBlog from "../Blog/AddBlog";
 import AddProject from "../Projects/AddProject";
+import AddMember from "../Member/AddMember";
 
 export const routes = createBrowserRouter([
     {
@@ -91,6 +92,9 @@ export const routes = createBrowserRouter([
                 return fetch(`http://localhost:8080/teammembers/${params.id}`);
             },
             element: <MemberDetails />
+        },
+        {
+            path: '/add-member', element: <AddMember />
         },
         ]
     }

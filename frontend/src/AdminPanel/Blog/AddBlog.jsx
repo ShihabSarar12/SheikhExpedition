@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddBlog = () => {
+    const navigate=useNavigate('')
     const [formValues, setFormValues] = useState({
         BlogTitle: '',
         BlogContent: '',
@@ -17,17 +18,17 @@ const AddBlog = () => {
             [name]: value,
         });
     };
-
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const imageName = file.name;
-            setFormValues({
-                ...formValues,
-                BlogImage: null,
-            });
+            const image = file.name;
+    
+           formValues.BlogImage=image;
+            console.log(image)
         }
+
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -40,11 +41,12 @@ const AddBlog = () => {
                 },
                 body: JSON.stringify(formValues),
             });
+            console.log(formValues)
 
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
-                
+                navigate('/blogs')
             } else {
                 console.error('Error adding blog:', response.statusText);
             }
@@ -98,6 +100,7 @@ const AddBlog = () => {
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
                 </div>
+
                 <div>
                     <label htmlFor="BlogPublishTime" className="block text-sm font-medium text-gray-700">
                         Blog Publish Time
