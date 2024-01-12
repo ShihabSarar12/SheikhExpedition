@@ -1,27 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useLoaderData } from "react-router-dom";
 import MemberItem from './MemberItem';
 
 const Members = () => {
-    const [members, setMembers] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(
-                    'http://localhost:8080/teammembers',
-                );
-                const data = await response.json();
-                setMembers(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
+    const members = useLoaderData();
 
     return (
-        <div className="container mx-auto p-4 ml-64 mr-64 ">
+        <div className="mx-auto p-4 ml-64">
             <h1 className="text-center text-3xl font-bold mb-4 ">
                 Members Page
             </h1>

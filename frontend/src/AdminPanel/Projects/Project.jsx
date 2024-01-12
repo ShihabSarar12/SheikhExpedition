@@ -1,24 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useLoaderData } from "react-router-dom";
 import ProjectItem from './ProjectItem';
 
 const Projects = () => {
-    const [projects, setProjects] = useState([]);
-
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const response = await fetch('http://localhost:8080/projects');
-                const data = await response.json();
-                setProjects(data);
-            } catch (error) {
-                console.error('Error fetching projects:', error);
-            }
-        };
-
-        fetchProjects();
-    }, []);
-
+    const projects = useLoaderData();
     return (
+        // TODO have to fix responsiveness design is broken with ml-64
         <div className="container mx-auto p-4 ml-64 mr-4">
             <h1 className="text-center text-3xl font-bold mb-4 ">
                 Projects Page

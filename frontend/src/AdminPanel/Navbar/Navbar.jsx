@@ -31,7 +31,7 @@ const Navbar = () => {
                 <SidebarItem
                     icon={<Users size={20} />}
                     text="Team Members"
-                    to="/team-members"
+                    to="/teammembers"
                 />
                 <hr className="my-3" />
                 <SidebarItem
