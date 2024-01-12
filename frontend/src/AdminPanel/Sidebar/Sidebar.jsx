@@ -11,7 +11,7 @@ export default function Sidebar({ children }) {
 
     return (
         <aside
-            className={` fixed top-0 left-0 ${
+            className={`sticky top-0 left-0 ${
                 expanded ? 'w-64 ' : 'w-16'
             } bg-dark-purple h-screen relative duration-300 `}
         >
