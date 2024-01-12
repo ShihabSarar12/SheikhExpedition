@@ -14,7 +14,7 @@ export default function Sidebar({ children }) {
 
   return (
     <div className={`h-screen ${expanded ? "w-64" : "w-16"}`}>
-      <nav className="h-full flex flex-col  bg-orange-100 border-r shadow-sm">
+      <nav className="h-full flex flex-col  bg-zinc-600 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Link to="/dashboard">
             <img
@@ -37,7 +37,7 @@ export default function Sidebar({ children }) {
           <ul className="flex-1 px-1 font-bold">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3 border-2 rounded-full">
+        <div className="border-t flex p-3">
           <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
             alt=""
@@ -50,8 +50,8 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+              <h4 className="font-semibold text-white">John Doe</h4>
+              <span className="text-xs text-white">johndoe@gmail.com</span>
             </div>
             <MoreVertical size={20} />
           </div>
@@ -82,7 +82,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
         ${
           active
             ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-            : "hover:text-black text-gray-600"
+            : "hover:text-black text-white"
         }
     `}
     >
