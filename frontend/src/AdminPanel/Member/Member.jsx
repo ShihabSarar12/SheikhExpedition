@@ -1,6 +1,7 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import MemberItem from './MemberItem';
+import { PlusCircle } from 'lucide-react';
 
 const Members = () => {
     const members = useLoaderData();
@@ -16,6 +17,10 @@ const Members = () => {
     return (
         <div className="container mx-auto px-4 md:p-8 lg:p-12">
             <h1 className="text-5xl font-extrabold mb-8 text-center">Team Members</h1>
+            <Link to="/add-member" className="text-blue-500 text-2xl hover:text-blue-700 flex items-center pb-4">
+                    <PlusCircle size={26} className=" text-center" />
+                    Add Member
+                </Link>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {members.map((member) => (
                     <MemberItem
