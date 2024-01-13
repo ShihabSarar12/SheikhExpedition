@@ -4,7 +4,7 @@ import { PlusCircle } from "lucide-react";
 
 const Projects = () => {
     const projects = useLoaderData();
-
+    //TODO fix text size inconsistency
     return (
         <div className="container mx-auto px-4 md:p-8 lg:p-12">
             <h1 className="text-5xl font-extrabold mb-8 text-center">Projects</h1>
