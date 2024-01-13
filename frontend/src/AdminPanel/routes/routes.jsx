@@ -46,7 +46,8 @@ export const routes = createBrowserRouter([
             element: <ProjectDetails />
         },
         {
-            path: '/add-project', element: <AddProject />
+            path: '/add-project',
+            element: <AddProject />
         },
         {
             path: '/blogs',

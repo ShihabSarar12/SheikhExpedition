@@ -1,23 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useLoaderData } from "react-router-dom";
 
 const ProjectDetails = () => {
-    const { id } = useParams();
-    const [project, setProject] = useState(null);
-
-    useEffect(() => {
-        const fetchProjectDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/projects/${id}`);
-                const data = await response.json();
-                setProject(data);
-            } catch (error) {
-                console.error('Error fetching project details:', error);
-            }
-        };
-
-        fetchProjectDetails();
-    }, [id]);
+    const project = useLoaderData();
 
     if (!project) {
         return <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
