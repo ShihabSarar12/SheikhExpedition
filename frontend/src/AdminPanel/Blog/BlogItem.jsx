@@ -33,7 +33,7 @@ const BlogItem = ({ blog, onEdit, onDelete }) => {
             )}
 
             <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded absolute bottom-4 right-4"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1 rounded"
                 onClick={openModal}
             >
                 See More

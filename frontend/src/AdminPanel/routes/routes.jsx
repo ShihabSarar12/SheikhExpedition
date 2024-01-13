@@ -40,7 +40,7 @@ export const routes = createBrowserRouter([
             loader: async ({ params }) =>{
                 return fetch(`http://localhost:8080/projects/${params.id}`);
             },
-            element: <ProjectItem />
+            element: <ProjectItem /> //TODO need to change element so it can show indepth data
         },
         {
             path: '/blogs',
