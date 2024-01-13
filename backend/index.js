@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import multer from 'multer';
+import path from 'path';
 import {
     deleteSingle, 
     getAll, 
@@ -19,6 +21,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 dotenv.config();
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        console.log(file);
+        return cb(null, './pictures');
+    },
+    filename: (req, file, cb) =>{
+        console.log(file);
+        console.log(path.extname(file.originalname));
+        return cb(null, `${Date.now()}_${path.extname(file.originalname)}`);
+    }
+});
+
+const upload = multer({
+    storage: storage
+});
 
 app.get('/:entity', async (req, res) =>{
     const { entity } = req.params;
@@ -53,12 +71,14 @@ app.get('/:entity/:id', async (req, res) =>{
     res.status(204).send('No data found!');
 });
 
-app.post('/blogs', async (req, res)=>{
-    const { BlogTitle, BlogContent, BlogImage, BlogAuthor } = req.body;
-    if(!BlogTitle || !BlogContent || !BlogImage || !BlogAuthor){
+app.post('/blogs', upload.single('BlogImage'), async (req, res)=>{
+    const { BlogTitle, BlogContent, BlogAuthor } = req.body;
+    if(!BlogTitle || !BlogContent || !BlogAuthor){
         res.status(423).send("Missing fields!");
         return;
     }
+    console.log(req.file);
+    const BlogImage = '';
     const { data, success, error } = await insertBlog(BlogTitle, BlogContent, BlogImage, BlogAuthor);
     if(error){
         res.status(423).send(`${error}: error occurred!`);

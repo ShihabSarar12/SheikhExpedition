@@ -42,6 +42,7 @@ const AddMember = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            console.log(file);
             const image = file.name;
             setFormValues({
                 ...formValues,

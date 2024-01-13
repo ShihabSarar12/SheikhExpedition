@@ -8,7 +8,6 @@ const AddBlog = () => {
         BlogTitle: '',
         BlogContent: '',
         BlogImage: '',
-        BlogPublishTime: '',
         BlogAuthor: '',
     });
 
@@ -43,19 +42,23 @@ const AddBlog = () => {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
+        console.log(file);
         if (file) {
-            const image = file.name;
-            setFormValues({
-                ...formValues,
-                BlogImage: image,
-            });
-            console.log(image);
+            setFormValues((prevFormValues) =>({
+                ...prevFormValues,
+                BlogImage: file,
+            }));
+            console.log(formValues);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const formData = new FormData();
+        formData.append('BlogTitle', formValues.BlogTitle);
+        formData.append('BlogContent', formValues.BlogContent);
+        formData.append('BlogImage', formValues.BlogImage);
+        formData.append('BlogAuthor', formValues.BlogAuthor);
         try {
             const apiUrl = id ? `http://localhost:8080/blogs/${id}` : 'http://localhost:8080/blogs';
             const method = id ? 'PUT' : 'POST';
@@ -65,9 +68,8 @@ const AddBlog = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formValues),
+                body: formData, //TODO have to fix large payload handle
             });
-            console.log(formValues);
 
             if (response.ok) {
                 const responseData = await response.json();
@@ -85,7 +87,7 @@ const AddBlog = () => {
     return (
         <div className="container mx-auto p-8 max-w-2xl">
             <h1 className="text-3xl font-bold mb-4">Add Blog</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" encType='multipart/form-data'>
                 <div>
                     <label htmlFor="BlogTitle" className="block text-sm font-medium text-gray-700">
                         Blog Title
@@ -124,20 +126,6 @@ const AddBlog = () => {
                         name="BlogImage"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="BlogPublishTime" className="block text-sm font-medium text-gray-700">
-                        Blog Publish Time
-                    </label>
-                    <input
-                        type="date"
-                        id="BlogPublishTime"
-                        name="BlogPublishTime"
-                        value={formValues.BlogPublishTime}
-                        onChange={handleInputChange}
                         className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     />
                 </div>
