@@ -10,6 +10,7 @@ const pool = mysql.createPool({
 }).promise();
 
 
+// TODO have to specify all the errors
 const getAll = async (entity) =>{   
     try{
         const [ data ] = await pool.query(`SELECT * FROM ??;`,[ entity ]);
@@ -32,7 +33,7 @@ const getSingle = async (entity, attribute, value) =>{
             return {
                 data: null,
                 success: false,
-                error: 'DATA_NOT_AVAILABLE'
+                error: null
             }
         }
         return {
@@ -49,7 +50,7 @@ const getSingle = async (entity, attribute, value) =>{
     }
 }
 
-const insertBlog = async (blogTitle, blogContent, blogImage, blogAuthor) =>{
+const insertBlog = async (blogTitle, blogContent, blogAuthor) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM blogs WHERE BlogTitle = ?`, [ blogTitle ]);
         if(dataAvailable.length !== 0){
@@ -59,12 +60,12 @@ const insertBlog = async (blogTitle, blogContent, blogImage, blogAuthor) =>{
                 error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`INSERT INTO blogs (BlogTitle, BlogContent, BlogImage, BlogAuthor) VALUES (?, ?, ?, ?);`, [ blogTitle, blogContent, blogImage, blogAuthor ]);
+        const [ { affectedRows } ] = await pool.query(`INSERT INTO blogs (BlogTitle, BlogContent, BlogAuthor) VALUES (?, ?, ?);`, [ blogTitle, blogContent, blogAuthor ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'INSERTION_FAILED'
+                error: null
             }
         }
         const { data, error } = await getSingle('blogs', 'BlogTitle', blogTitle);
@@ -91,9 +92,9 @@ const insertBlog = async (blogTitle, blogContent, blogImage, blogAuthor) =>{
     }
 }
 
-const insertTeammember = async (teammemberName, teammemberImage, teammemberPosition, teammemberContact, teammemberEmail) =>{
+const insertTeammember = async (teammemberName, teammemberPosition, teammemberContact, teammemberEmail) =>{
     try{
-        const [ dataAvailable ] = await pool.query(`SELECT * FROM teammembers WHERE TeamMemberEmail = ? AND TeamMemberName = ?;`, [ teammemberEmail, teammemberName ]);
+        const [ dataAvailable ] = await pool.query(`SELECT * FROM teammembers WHERE TeamMemberEmail = ?`, [ teammemberEmail ]);
         if(dataAvailable.length !== 0){
             return {
                 data: dataAvailable[0],
@@ -101,12 +102,12 @@ const insertTeammember = async (teammemberName, teammemberImage, teammemberPosit
                 error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`INSERT INTO teammembers (TeamMemberName, TeamMemberImage, TeamMemberPosition, TeamMemberContact, TeamMemberEmail) VALUES (?, ?, ?, ?, ?);`, [ teammemberName, teammemberImage, teammemberPosition, teammemberContact, teammemberEmail ]);
+        const [ { affectedRows } ] = await pool.query(`INSERT INTO teammembers (TeamMemberName, TeamMemberPosition, TeamMemberContact, TeamMemberEmail) VALUES (?, ?, ?, ?);`, [ teammemberName, teammemberPosition, teammemberContact, teammemberEmail ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'INSERTION_FAILED'
+                error: null
             }
         }
         const { data, error } = await getSingle('teammembers', 'TeamMemberName', teammemberName);
@@ -133,7 +134,7 @@ const insertTeammember = async (teammemberName, teammemberImage, teammemberPosit
     }
 }
 
-const insertProject = async (projectName, projectDescription, projectImage, startDate, endDate, status, budget) =>{
+const insertProject = async (projectName, projectDescription, startDate, endDate, status, budget) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM projects WHERE ProjectName = ?`, [ projectName ]);
         if(dataAvailable.length !== 0){
@@ -143,12 +144,12 @@ const insertProject = async (projectName, projectDescription, projectImage, star
                 error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`INSERT INTO projects (ProjectName, ProjectDescription, ProjectImage, StartDate, EndDate, Status, Budget) VALUES (?, ?, ?, ?, ?, ?, ?);`, [ projectName, projectDescription, projectImage, startDate, endDate, status, budget  ]);
+        const [ { affectedRows } ] = await pool.query(`INSERT INTO projects (ProjectName, ProjectDescription, StartDate, EndDate, Status, Budget) VALUES (?, ?, ?, ?, ?, ?);`, [ projectName, projectDescription, startDate, endDate, status, budget ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'INSERTION_FAILED'
+                error: null
             }
         }
         // TODO have to declare the names unique in database
@@ -176,7 +177,7 @@ const insertProject = async (projectName, projectDescription, projectImage, star
     }
 }
 
-const insertService = async (serviceName, serviceDescription, serviceImage, serviceDuration) =>{
+const insertService = async (serviceName, serviceDescription, serviceDuration) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM services WHERE ServiceName = ?`, [ serviceName ]);
         if(dataAvailable.length !== 0){
@@ -186,12 +187,12 @@ const insertService = async (serviceName, serviceDescription, serviceImage, serv
                 error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`INSERT INTO services (ServiceName, ServiceDescription, ServiceImage, ServiceDuration) VALUES (?, ?, ?, ?);`, [ serviceName, serviceDescription, serviceImage, serviceDuration ]);
+        const [ { affectedRows } ] = await pool.query(`INSERT INTO services (ServiceName, ServiceDescription, ServiceDuration) VALUES (?, ?, ?);`, [ serviceName, serviceDescription, serviceDuration ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'INSERTION_FAILED'
+                error: null
             }
         }
         const { data, error } = await getSingle('services', 'ServiceName', serviceName);
@@ -218,22 +219,22 @@ const insertService = async (serviceName, serviceDescription, serviceImage, serv
     }
 }
 
-const updateBlog = async (blogID, blogTitle, blogContent, blogImage, blogAuthor) =>{
+const updateBlog = async (blogID, blogTitle, blogContent, blogAuthor) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM blogs WHERE BlogID = ?;`, [ blogID ]);
         if(dataAvailable.length === 0){
             return {
                 data: null,
                 success: false,
-                error: 'DATA_NOT_AVAILABLE'
+                error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`UPDATE blogs SET BlogTitle = ?, BlogContent = ?, BlogImage = ?, BlogAuthor = ? WHERE BlogID = ?;`,[ blogTitle, blogContent, blogImage, blogAuthor, blogID ]);
+        const [ { affectedRows } ] = await pool.query(`UPDATE blogs SET BlogTitle = ?, BlogContent = ?, BlogAuthor = ? WHERE BlogID = ?;`,[ blogTitle, blogContent, blogAuthor, blogID ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'UPDATE_FAILED'
+                error: null
             };
         }
         const { data, error } = await getSingle('blogs', 'BlogID', blogID);
@@ -251,22 +252,22 @@ const updateBlog = async (blogID, blogTitle, blogContent, blogImage, blogAuthor)
     }
 }
 
-const updateService = async (serviceID, serviceName, serviceDescription, serviceImage, serviceDuration) =>{
+const updateService = async (serviceID, serviceName, serviceDescription, serviceDuration) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM services WHERE ServiceID = ?;`, [ serviceID ]);
         if(dataAvailable.length === 0){
             return {
                 data: null,
                 success: false,
-                error: 'DATA_NOT_AVAILABLE'
+                error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`UPDATE services SET ServiceName = ?, ServiceDescription = ?, ServiceImage = ?, ServiceDuration = ? WHERE ServiceID = ?;`,[ serviceName, serviceDescription, serviceImage, serviceDuration, serviceID ]);
+        const [ { affectedRows } ] = await pool.query(`UPDATE services SET ServiceName = ?, ServiceDescription = ?, ServiceDuration = ? WHERE ServiceID = ?;`,[ serviceName, serviceDescription, serviceDuration, serviceID ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'UPDATE_FAILED'
+                error: null
             };
         }
         const { data, error } = await getSingle('services', 'ServiceID', serviceID);
@@ -284,22 +285,22 @@ const updateService = async (serviceID, serviceName, serviceDescription, service
     }
 }
 
-const updateTeammember = async (teammemberID, teammemberName, teammemberImage, teammemberPosition, teammemberContact, teammemberEmail) =>{
+const updateTeammember = async (teammemberID, teammemberName, teammemberPosition, teammemberContact, teammemberEmail) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM teammembers WHERE TeamMemberID = ?;`, [ teammemberID ]);
         if(dataAvailable.length === 0){
             return {
                 data: null,
                 success: false,
-                error: 'DATA_NOT_AVAILABLE'
+                error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`UPDATE teammembers SET TeamMemberName = ?, TeamMemberImage = ?, TeamMemberPosition = ?, TeamMemberContact = ?, TeamMemberEmail = ? WHERE TeamMemberID = ?;`,[ teammemberName, teammemberImage, teammemberPosition, teammemberContact, teammemberEmail, teammemberID ]);
+        const [ { affectedRows } ] = await pool.query(`UPDATE teammembers SET TeamMemberName = ?, TeamMemberPosition = ?, TeamMemberContact = ?, TeamMemberEmail = ? WHERE TeamMemberID = ?;`,[ teammemberName, teammemberPosition, teammemberContact, teammemberEmail, teammemberID ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'UPDATE_FAILED'
+                error: null
             };
         }
         const { data, error } = await getSingle('teammembers', 'TeamMemberID', teammemberID);
@@ -317,22 +318,22 @@ const updateTeammember = async (teammemberID, teammemberName, teammemberImage, t
     }
 }
 
-const updateProject = async (projectID, projectName, projectDescription, projectImage, startDate, endDate, status, budget) =>{
+const updateProject = async (projectID, projectName, projectDescription, startDate, endDate, status, budget) =>{
     try{
         const [ dataAvailable ] = await pool.query(`SELECT * FROM projects WHERE ProjectID = ?;`, [ projectID ]);
         if(dataAvailable.length === 0){
             return {
                 data: null,
                 success: false,
-                error: 'DATA_NOT_AVAILABLE'
+                error: null
             }
         }
-        const [ { affectedRows } ] = await pool.query(`UPDATE projects SET ProjectName = ?, ProjectDescription = ?, ProjectImage = ?, StartDate = ?, EndDate = ?, Status = ?, Budget = ? WHERE ProjectID = ?;`,[ projectName, projectDescription, projectImage, startDate, endDate, status, budget, projectID ]);
+        const [ { affectedRows } ] = await pool.query(`UPDATE projects SET ProjectName = ?, ProjectDescription = ?, StartDate = ?, EndDate = ?, Status = ?, Budget = ? WHERE ProjectID = ?;`,[ projectName, projectDescription, startDate, endDate, status, budget, projectID ]);
         if(affectedRows === 0){
             return {
                 data: null,
                 success: false,
-                error: 'UPDATE_FAILED'
+                error: null
             };
         }
         const { data, error } = await getSingle('projects', 'ProjectID', projectID);
@@ -371,7 +372,7 @@ const deleteSingle = async (entity, attribute, value) =>{
         return {
             data: null,
             success: false,
-            error: 'DELETION_FAILED'
+            error: null
         };
     } catch(error){
         return {

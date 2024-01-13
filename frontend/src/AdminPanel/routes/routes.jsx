@@ -3,13 +3,16 @@ import Adminpanel from "../Adminpanel";
 import Dashboard from "../Dashboard/Dashboard";
 import Projects from "../Projects/Project";
 import Help from "../Help/Help";
-import ProjectItem from "../Projects/ProjectItem";
 import Blogs from "../Blog/Blog";
-import BlogItem from "../Blog/BlogItem";
 import Services from "../Services/Services";
 import ServiceItem from "../Services/ServiceItem";
-import Members from "../Member/Member";
-import MemberItem from "../Member/MemberItem";
+import Member from "../Member/Member";
+import MemberDetails from "../Member/MemberDetails";
+import ProjectDetails from "../Projects/ProjectDetails";
+import BlogDetails from "../Blog/BlogDetails";
+import AddBlog from "../Blog/AddBlog";
+import AddProject from "../Projects/AddProject";
+import AddMember from "../Member/AddMember";
 
 export const routes = createBrowserRouter([
     {
@@ -37,10 +40,13 @@ export const routes = createBrowserRouter([
         },
         {
             path: '/projects/:id',
-            loader: async ({ params }) =>{
+            loader: async ({params}) =>{
                 return fetch(`http://localhost:8080/projects/${params.id}`);
             },
-            element: <ProjectItem /> //TODO need to change element so it can show indepth data
+            element: <ProjectDetails />
+        },
+        {
+            path: '/add-project', element: <AddProject />
         },
         {
             path: '/blogs',
@@ -54,7 +60,10 @@ export const routes = createBrowserRouter([
             loader: async ({ params }) =>{
                 return fetch(`http://localhost:8080/blogs/${params.id}`);
             },
-            element: <BlogItem />
+            element: <BlogDetails />
+        },
+        {
+            path: '/add-blog', element: <AddBlog />
         },
         {
             path: '/services',
@@ -71,18 +80,21 @@ export const routes = createBrowserRouter([
             element: <ServiceItem />
         },
         {
-            path: '/teammembers',
+            path: '/team-members',
             loader: async () =>{
                 return fetch(`http://localhost:8080/teammembers`);
             },
-            element: <Members />
+            element: <Member />
         },
         {
-            path: '/teammembers/:id',
-            loader: async ({ params }) =>{
+            path: '/team-members/:id',
+            loader: async ({params}) =>{
                 return fetch(`http://localhost:8080/teammembers/${params.id}`);
             },
-            element: <MemberItem />
+            element: <MemberDetails />
+        },
+        {
+            path: '/add-member', element: <AddMember />
         },
         ]
     }

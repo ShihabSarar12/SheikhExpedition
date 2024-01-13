@@ -1,72 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const MemberItem = ({ member }) => {
-    const [imageSrc, setImageSrc] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchImage = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:8080/teammembers/${member.TeamMemberID}`,
-                );
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const { TeamMemberImage } = await response.json();
-                const blob = new Blob([new Uint8Array(TeamMemberImage.data)], {
-                    type: 'image/png',
-                });
-
-                const imageUrl = URL.createObjectURL(blob);
-
-                setImageSrc(imageUrl);
-                console.log(TeamMemberImage);
-            } catch (error) {
-                console.error('Error fetching image:', error);
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchImage();
-    }, [member.TeamMemberID]);
-
-    if (loading) {
-        return (
-            <div className="bg-white p-6 rounded-md shadow-md">
-                <p>Loading...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="bg-white p-6 rounded-md shadow-md">
-                <p>Error fetching image: {error}</p>
-            </div>
-        );
-    }
-
     return (
-        <div className="bg-white p-6 rounded-md shadow-md">
-            {imageSrc && (
-                <div className="mt-4">
+        <div className="bg-white p-6 rounded-md shadow-md transition-transform transform hover:scale-105 flex flex-col h-full">
+            {member.TeamMemberImage && (
+                <div className="mb-4">
                     <img
-                        src={imageSrc}
-                        alt="Members"
-                        className="max-w-full h-auto"
+                        src={`../assests/Members/${member.TeamMemberImage}`}
+                        alt="Team Member"
+                        className="w-full h-40 object-cover rounded-md"
                     />
                 </div>
             )}
-            <h2 className="text-xl font-bold mb-4">{member.TeamMemberName}</h2>
-            <p className="mb-2">Description: {member.TeamMemberPosition}</p>
-            <p className="mb-2">Start Date: {member.TeamMemberContact}</p>
-            <p className="mb-2">End Date: {member.TeamMemberEmail}</p>
+            <div className="flex-1">
+                <h2 className="text-xl font-bold mb-2">{member.TeamMemberName}</h2>
+                <div className="mb-4">
+                    <p className="text-sm text-gray-700">Position: {member.TeamMemberPosition}</p>
+                    <p className="text-sm text-gray-700">Contact: {member.TeamMemberContact}</p>
+                    <p className="text-sm text-gray-700">Email: {member.TeamMemberEmail}</p>
+                </div>
+            </div>
+            <div className="mt-auto">
+                <Link to={`/team-members/${member.TeamMemberID}`} className="block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Read More
+                </Link>
+            </div>
         </div>
     );
 };
