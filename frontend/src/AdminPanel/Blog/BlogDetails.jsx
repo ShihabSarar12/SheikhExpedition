@@ -1,24 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import img from '../assests/zoro.jpeg'
+import { Pen, Trash } from 'lucide-react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const BlogDetails = () => {
-    const { id } = useParams();
-    const [blog, setBlog] = useState(null);
 
-    useEffect(() => {
-        const fetchBlogDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/blogs/${id}`);
-                const data = await response.json();
-                setBlog(data);
-            } catch (error) {
-                console.error('Error fetching blog details:', error);
+    const blog = useLoaderData()
+    const navigate=useNavigate('')
+
+    const handleEdit = () => {
+        const BlogID = blog.BlogID;
+        navigate(`/update-blog/${BlogID}`);
+    };
+
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/blogs/${blog.BlogID}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                console.log('blog deleted successfully');
+                navigate('/blogs');
+            } else {
+                console.error('Error deleting project:', response.statusText);
             }
-        };
-
-        fetchBlogDetails();
-    }, [id]);
+        } catch (error) {
+            console.error('Error deleting project:', error.message);
+        }
+    };
 
     if (!blog) {
         return (
@@ -27,11 +38,17 @@ const BlogDetails = () => {
             </div>
         );
     }
-    const imagePath = `../assets/${blog.BlogImage}`;
-    console.log(imagePath)
 
     return (
         <div className="p-4 mx-auto my-auto">
+              <div className="flex justify-end mb-4">
+                <button className="mx-2" onClick={handleEdit}>
+                    <Pen size={24} color="#4CAF50" />
+                </button>
+                <button className="mx-2" onClick={handleDelete}>
+                    <Trash size={24} color="#F44336" />
+                </button>
+            </div>
             <h1 className="text-2xl font-bold mb-4">{blog.BlogTitle}</h1>
             <p className="mb-2">Content: {blog.BlogContent}</p>
             <p className="mb-2">Publish Date: {blog.BlogPublishTime}</p>
@@ -39,7 +56,7 @@ const BlogDetails = () => {
 
             {blog.BlogImage && (
                 <div className="mt-4">
-                    <img src={imagePath} alt={blog.BlogTitle} style={{ maxWidth: '100%' }} />
+                    <img src={blog.BlogImage} alt={blog.BlogTitle} style={{ maxWidth: '100%' }} />
                 </div>
             )}
         </div>

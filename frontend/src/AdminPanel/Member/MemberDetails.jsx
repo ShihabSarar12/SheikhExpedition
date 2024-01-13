@@ -1,36 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { Pen, Trash } from 'lucide-react';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 
 const TeamMemberDetails = () => {
-    const { id } = useParams();
-    const [teamMember, setteamMember] = useState(null);
+    const teamMember=useLoaderData();
 
-    useEffect(() => {
-        const fetchTeamMemberDetails = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/teammembers/${id}`);
-                const data = await response.json();
-                setteamMember(data);
-            } catch (error) {
-                console.error('Error fetching project details:', error);
-            }
-        };
-
-        fetchTeamMemberDetails();
-    }, [id]);
-
+    const navigate=useNavigate('');
     const handleEdit = () => {
-        
-
-        console.log('Edit button clicked');
+        const TeamMemberID = teamMember.TeamMemberID;
+        navigate(`/update-member/${TeamMemberID}`);
     };
 
-    const handleDelete = () => {
-       
-        
-        console.log('Delete button clicked');
+    const handleDelete = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/teammembers/${teamMember.TeamMemberID}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                console.log('member deleted successfully');
+                navigate('/team-members');
+            } else {
+                console.error('Error deleting project:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error deleting project:', error.message);
+        }
     };
 
     if (!teamMember) {
