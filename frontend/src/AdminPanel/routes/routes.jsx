@@ -50,6 +50,13 @@ export const routes = createBrowserRouter([
             element: <AddProject />
         },
         {
+            path: '/update-project/:id',
+            loader: async ({ params }) => {
+                return fetch(`http://localhost:8080/projects/${params.id}`);
+            },
+            element: <AddProject />,
+        },
+        {
             path: '/blogs',
             loader: async () =>{
                 return fetch(`http://localhost:8080/blogs`);
@@ -67,6 +74,13 @@ export const routes = createBrowserRouter([
             path: '/add-blog', element: <AddBlog />
         },
         {
+            path: '/update-blog/:id',
+            loader: async ({ params }) => {
+                return fetch(`http://localhost:8080/blogs/${params.id}`);
+            },
+            element: <AddBlog />,
+        },
+        {
             path: '/services',
             loader: async () =>{
                 return fetch(`http://localhost:8080/services`);
@@ -79,6 +93,13 @@ export const routes = createBrowserRouter([
                 return fetch(`http://localhost:8080/services/${params.id}`);
             },
             element: <ServiceItem />
+        },
+        {
+            path: '/update-service/:id',
+            loader: async ({ params }) => {
+                return fetch(`http://localhost:8080/services/${params.id}`);
+            },
+            element: <AddBlog />,
         },
         {
             path: '/team-members',
@@ -97,6 +118,13 @@ export const routes = createBrowserRouter([
         {
             path: '/add-member', element: <AddMember />
         },
+        {
+            path: '/update-member/:id',
+            loader: async ({ params }) => {
+                return fetch(`http://localhost:8080/teammembers/${params.id}`);
+            },
+            element: <AddMember />,
+        }
         ]
     }
 ]);

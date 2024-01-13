@@ -13,8 +13,8 @@ export default function Sidebar({ children }) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className={`h-screen ${expanded ? "w-64" : "w-16"}`}>
-      <nav className="h-full flex flex-col bg-zinc-600 border-r shadow-sm">
+    <div className={`h-screen ${expanded ? "w-64 duration-500" : "w-16 duration-300"}`}>
+      <nav className="h-full flex flex-col  bg-zinc-600 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Link to="/dashboard">
             <img
@@ -73,6 +73,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
   };
 
   return (
+    <Link to={to} className="group">
     <li
       className={`
         flex  rounded-md p-4 cursor-pointer hover:bg-orange-400 text-black-300 text-semi-bold items-center gap-x-4 
@@ -104,17 +105,19 @@ export function SidebarItem({ icon, text, active, alert, to }) {
 
       {!expanded && (
         <div
-          className={`
-          absolute left-full rounded-md px-2 py-1 ml-6
-          bg-yellow-100  text-sm 
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
-      `}
+        className={`
+            absolute left-full rounded-md px-2 py-1 ml-3
+           bg-yellow-200 text-sm 
+            invisible opacity-20 -translate-x-3 transition-all
+            group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
+            z-10 
+        `}
         >
           {renderLinkOrSpan(text)}
         </div>
       )}
     </li>
+    </Link>
   );
 }
 

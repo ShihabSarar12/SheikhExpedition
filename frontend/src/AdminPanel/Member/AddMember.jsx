@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddMember = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [formValues, setFormValues] = useState({
         TeamMemberName: '',
         TeamMemberImage: '',
@@ -10,6 +11,25 @@ const AddMember = () => {
         TeamMemberContact: '',
         TeamMemberEmail: '',
     });
+
+    useEffect(() => {
+        if (id) {
+            fetchMemberDetails(id);
+        }
+    }, [id]);
+
+    const fetchMemberDetails = async (memberId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/teammembers/${memberId}`);
+            const memberData = await response.json();
+
+            setFormValues({
+                ...memberData,
+            });
+        } catch (error) {
+            console.error('Error fetching member details:', error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -36,24 +56,26 @@ const AddMember = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:8080/teammembers', {
-                method: 'POST',
+            const apiEndpoint = id ? `http://localhost:8080/teammembers/${id}` : 'http://localhost:8080/teammembers';
+            const method = id ? 'PUT' : 'POST';
+
+            const response = await fetch(apiEndpoint, {
+                method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formValues),
             });
-            console.log(formValues);
 
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
                 navigate('/team-members');
             } else {
-                console.error('Error adding team member:', response.statusText);
+                console.error(`Error ${id ? 'updating' : 'adding'} team member:`, response.statusText);
             }
         } catch (error) {
-            console.error('Error adding team member:', error.message);
+            console.error(`Error ${id ? 'updating' : 'adding'} team member:`, error.message);
         }
     };
 

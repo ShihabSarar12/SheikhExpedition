@@ -1,14 +1,36 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddBlog = () => {
-    const navigate=useNavigate('')
+    const navigate = useNavigate();
+    const { id } = useParams();
     const [formValues, setFormValues] = useState({
         BlogTitle: '',
         BlogContent: '',
         BlogImage: '',
         BlogAuthor: '',
     });
+
+    useEffect(() => {
+        
+        if (id) {
+            fetchBlogDetails(id);
+        }
+    }, [id]);
+
+    const fetchBlogDetails = async (blogId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/blogs/${blogId}`);
+            const blogData = await response.json();
+
+            setFormValues({
+                ...blogData,
+                BlogPublishTime: blogData.BlogPublishTime.slice(0, 10),
+            });
+        } catch (error) {
+            console.error('Error fetching blog details:', error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -17,6 +39,7 @@ const AddBlog = () => {
             [name]: value,
         });
     };
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         console.log(file);
@@ -27,9 +50,7 @@ const AddBlog = () => {
             }));
             console.log(formValues);
         }
-
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,26 +60,29 @@ const AddBlog = () => {
         formData.append('BlogImage', formValues.BlogImage);
         formData.append('BlogAuthor', formValues.BlogAuthor);
         try {
-            const response = await fetch('http://localhost:8080/blogs', {
-                method: 'POST',
+            const apiUrl = id ? `http://localhost:8080/blogs/${id}` : 'http://localhost:8080/blogs';
+            const method = id ? 'PUT' : 'POST';
+
+            const response = await fetch(apiUrl, {
+                method,
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: formData, //TODO have to fix large payload handle
             });
-            console.log(formValues); 
 
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
                 navigate('/blogs');
             } else {
-                console.error('Error adding blog:', response.statusText);
+                console.error('Error adding/updating blog:', response.statusText);
             }
         } catch (error) {
-            console.error('Error adding blog:', error.message);
+            console.error('Error adding/updating blog:', error.message);
         }
     };
+
 
     return (
         <div className="container mx-auto p-8 max-w-2xl">

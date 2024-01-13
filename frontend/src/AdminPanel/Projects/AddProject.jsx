@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const AddProject = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [formValues, setFormValues] = useState({
         ProjectName: '',
         ProjectDescription: '',
@@ -12,6 +13,29 @@ const AddProject = () => {
         Status: '',
         Budget: 0,
     });
+
+    useEffect(() => {
+        
+        if (id) {
+            
+            fetchProjectDetails(id);
+        }
+    }, [id]);
+
+    const fetchProjectDetails = async (projectId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/projects/${projectId}`);
+            const projectData = await response.json();
+
+            setFormValues({
+                ...projectData,
+                StartDate: projectData.StartDate.slice(0, 10),
+                EndDate: projectData.EndDate.slice(0, 10),
+            });
+        } catch (error) {
+            console.error('Error fetching project details:', error);
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -36,24 +60,26 @@ const AddProject = () => {
         e.preventDefault();
         console.log(formValues);
         try {
-            const response = await fetch('http://localhost:8080/projects', {
-                method: 'POST',
+            
+            const apiEndpoint = id ? `http://localhost:8080/projects/${id}` : 'http://localhost:8080/projects';
+
+            const response = await fetch(apiEndpoint, {
+                method: id ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formValues),
             });
-            console.log(formValues);
 
             if (response.ok) {
                 const responseData = await response.json();
                 console.log(responseData);
                 navigate('/projects');
             } else {
-                console.error('Error adding project:', response.statusText);
+                console.error(`Error ${id ? 'updating' : 'adding'} project:`, response.statusText);
             }
         } catch (error) {
-            console.error('Error adding project:', error.message);
+            console.error(`Error ${id ? 'updating' : 'adding'} project:`, error.message);
         }
     };
 
