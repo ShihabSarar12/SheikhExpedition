@@ -22,9 +22,8 @@ const AddProject = () => {
     };
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const image = file.name;
+        const image = e.target.files[0];
+        if (image) {
             setFormValues({
                 ...formValues,
                 ProjectImage: image,
@@ -35,7 +34,7 @@ const AddProject = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log(formValues);
         try {
             const response = await fetch('http://localhost:8080/projects', {
                 method: 'POST',

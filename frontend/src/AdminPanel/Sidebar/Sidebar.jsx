@@ -14,7 +14,7 @@ export default function Sidebar({ children }) {
 
   return (
     <div className={`h-screen ${expanded ? "w-64" : "w-16"}`}>
-      <nav className="h-full flex flex-col  bg-zinc-600 border-r shadow-sm">
+      <nav className="h-full flex flex-col bg-zinc-600 border-r shadow-sm">
         <div className="p-4 pb-2 flex justify-between items-center">
           <Link to="/dashboard">
             <img
