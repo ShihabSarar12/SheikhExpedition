@@ -19,10 +19,11 @@ const Members = () => {
 
             <h1 className="text-5xl font-extrabold mb-8 text-center">Team Members</h1>
 
-            <Link to="/add-member" className="text-blue-500 text-2xl hover:text-blue-700 flex items-center pb-4">
-                    <PlusCircle size={26} className=" text-center" />
-                    Add Member
-                </Link>
+            <div className="text-blue-500 text-2xl hover:text-blue-700 flex items-center mb-6">
+                <PlusCircle size={26} className="mr-2" />
+                <Link to="/add-member">Add Member</Link>
+            </div>
+
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
