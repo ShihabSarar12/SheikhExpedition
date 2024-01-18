@@ -8,7 +8,7 @@ const ProjectItem = ({ project, className }) => {
                 {project.ProjectImage && (
                     <div className="mb-4">
                         <img
-                            src={`../assests/Projects/${project.ProjectImage}`}
+                            src={`assests/ProjectImages/${project.ProjectImage}`}
                             alt="Project"
                             className="w-full h-32 object-cover rounded-md"
                         />
