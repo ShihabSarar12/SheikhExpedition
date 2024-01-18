@@ -43,7 +43,7 @@ const ProjectDetails = () => {
     }
 
     return (
-        <div className=" p-4 mx-auto my-auto ">
+        <div className="p-4 mx-auto my-auto">
             <div className="flex justify-end mb-4">
                 <button className="mx-2" onClick={handleEdit}>
                     <Pen size={24} color="#4CAF50" />
