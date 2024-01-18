@@ -1,6 +1,6 @@
 import { Pen, Trash } from 'lucide-react';
 import React from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData,useNavigate } from 'react-router-dom';
 
 const ProjectDetails = () => {
     const project = useLoaderData();
@@ -22,7 +22,6 @@ const ProjectDetails = () => {
                     },
                 },
             );
-
             if (response.ok) {
                 console.log('Project deleted successfully');
                 navigate('/projects');
@@ -33,7 +32,6 @@ const ProjectDetails = () => {
             console.error('Error deleting project:', error.message);
         }
     };
-
     if (!project) {
         return (
             <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
@@ -41,9 +39,8 @@ const ProjectDetails = () => {
             </div>
         );
     }
-
     return (
-        <div className=" p-4 mx-auto my-auto ">
+        <div className="p-4 mx-auto my-auto">
             <div className="flex justify-end mb-4">
                 <button className="mx-2" onClick={handleEdit}>
                     <Pen size={24} color="#4CAF50" />
