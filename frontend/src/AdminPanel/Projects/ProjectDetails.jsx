@@ -8,13 +8,13 @@ const ProjectDetails = () => {
 
     const handleEdit = () => {
         const projectId = project.ProjectID;
-        navigate(`/update-project/${projectId}`);
+        navigate(/update-project/${projectId});
     };
 
     const handleDelete = async () => {
         try {
             const response = await fetch(
-                `http://localhost:8080/projects/${project.ProjectID}`,
+                http://localhost:8080/projects/${project.ProjectID},
                 {
                     method: 'DELETE',
                     headers: {
@@ -52,7 +52,7 @@ const ProjectDetails = () => {
             <h1 className="text-2xl font-bold mb-4">{project.ProjectName}</h1>
             {project.ProjectImage && (
                 <img
-                src={`/assests/ProjectImages/${project.ProjectImage}`}
+                src={/assests/ProjectImages/${project.ProjectImage}}
                     alt="Project"
                     className="max-w-full h-auto"
                 />
@@ -69,4 +69,4 @@ const ProjectDetails = () => {
     );
 };
 
-export default ProjectDetails;
+export default ProjectDetails;

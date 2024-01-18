@@ -42,6 +42,7 @@ const AddMember = () => {
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            console.log(file);
             const image = file.name;
             setFormValues({
                 ...formValues,
@@ -65,6 +66,7 @@ const AddMember = () => {
                 },
                 body: JSON.stringify(formValues),
             });
+            console.log(formValues);
 
             if (response.ok) {
                 const responseData = await response.json();
