@@ -44,6 +44,7 @@ const AddProject = () => {
                 },
                 body: JSON.stringify(formValues),
             });
+            console.log(formValues);
 
             if (response.ok) {
                 const responseData = await response.json();
