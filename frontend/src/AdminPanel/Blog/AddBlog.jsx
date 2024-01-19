@@ -42,7 +42,6 @@ const AddBlog = () => {
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        console.log(file);
         if (file) {
             setFormValues((prevFormValues) =>({
                 ...prevFormValues,
@@ -62,13 +61,9 @@ const AddBlog = () => {
         try {
             const apiUrl = id ? `http://localhost:8080/blogs/${id}` : 'http://localhost:8080/blogs';
             const method = id ? 'PUT' : 'POST';
-
             const response = await fetch(apiUrl, {
                 method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: formData, //TODO have to fix large payload handle
+                body: formData,
             });
 
             if (response.ok) {
@@ -87,7 +82,7 @@ const AddBlog = () => {
     return (
         <div className="container mx-auto p-8 max-w-2xl">
             <h1 className="text-3xl font-bold mb-4">Add Blog</h1>
-            <form onSubmit={handleSubmit} className="space-y-4" encType='multipart/form-data'>
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="BlogTitle" className="block text-sm font-medium text-gray-700">
                         Blog Title

@@ -113,6 +113,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
             z-10 
         `}
         >
+          {/* TODO have to fix dom nesting the bug is under this comment */}
           {renderLinkOrSpan(text)}
         </div>
       )}
