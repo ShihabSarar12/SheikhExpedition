@@ -28,11 +28,11 @@ dotenv.config();
 const storage = multer.diskStorage({
     destination: (req, file, cb) =>{
         console.log(file);
-        return cb(null, './pictures');
+        return cb(null, 'pictures');
     },
     filename: (req, file, cb) =>{
         console.log(file);
-        return cb(null, `${Date.now()}_${file.originalname}`);
+        return cb(null, `${file.originalname}`);
     }
 });
 
@@ -79,8 +79,7 @@ app.post('/blogs', upload.single('BlogImage'), async (req, res)=>{
         res.status(423).send("Missing fields!");
         return;
     }
-    console.log(req.file);
-    const BlogImage = '';
+    const BlogImage = req.file.originalname;
     const { data, success, error } = await insertBlog(BlogTitle, BlogContent, BlogImage, BlogAuthor);
     if(error){
         res.status(423).send(`${error}: error occurred!`);
