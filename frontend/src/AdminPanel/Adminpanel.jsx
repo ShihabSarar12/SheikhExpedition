@@ -16,7 +16,7 @@ const Adminpanel = () => {
       <div className="flex h-screen w-screen bg-slate-200">
         <Navbar />
 
-        <div className="flex flex-col w-full overflow-hidden">
+        <div className="flex flex-col w-full overflow-hiddenj">
           <Topbar toggleColorMode={toggleColorMode} />
 
           <main className="flex-1 overflow-y-auto p-4">
