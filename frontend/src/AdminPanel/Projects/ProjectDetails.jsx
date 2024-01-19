@@ -1,6 +1,6 @@
 import { Pen, Trash } from 'lucide-react';
 import React from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData,useNavigate } from 'react-router-dom';
 
 const ProjectDetails = () => {
     const project = useLoaderData();
@@ -8,13 +8,13 @@ const ProjectDetails = () => {
 
     const handleEdit = () => {
         const projectId = project.ProjectID;
-        navigate(/update-project/${projectId});
+        navigate(`/update-project/${projectId}`);
     };
 
     const handleDelete = async () => {
         try {
             const response = await fetch(
-                http://localhost:8080/projects/${project.ProjectID},
+                `http://localhost:8080/projects/${project.ProjectID}`,
                 {
                     method: 'DELETE',
                     headers: {
@@ -22,7 +22,6 @@ const ProjectDetails = () => {
                     },
                 },
             );
-
             if (response.ok) {
                 console.log('Project deleted successfully');
                 navigate('/projects');
@@ -33,7 +32,6 @@ const ProjectDetails = () => {
             console.error('Error deleting project:', error.message);
         }
     };
-
     if (!project) {
         return (
             <div className="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
@@ -41,9 +39,8 @@ const ProjectDetails = () => {
             </div>
         );
     }
-
     return (
-        <div className=" p-4 mx-auto my-auto ">
+        <div className="p-4 mx-auto my-auto">
             <div className="flex justify-end mb-4">
                 <button className="mx-2" onClick={handleEdit}>
                     <Pen size={24} color="#4CAF50" />
@@ -55,7 +52,7 @@ const ProjectDetails = () => {
             <h1 className="text-2xl font-bold mb-4">{project.ProjectName}</h1>
             {project.ProjectImage && (
                 <img
-                src={/assests/ProjectImages/${project.ProjectImage}}
+                src={`/assests/ProjectImages/${project.ProjectImage}`}
                     alt="Project"
                     className="max-w-full h-auto"
                 />
@@ -72,4 +69,4 @@ const ProjectDetails = () => {
     );
 };
 
-export default ProjectDetails;
+export default ProjectDetails;
