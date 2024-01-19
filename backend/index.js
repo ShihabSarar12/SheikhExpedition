@@ -11,11 +11,14 @@ import {
     insertProject, 
     insertService, 
     insertTeammember, 
+    registerUser, 
     updateBlog,
     updateProject,
     updateService,
-    updateTeammember
+    updateTeammember,
+    validateLogin
 } from './app/database.js';
+import { hashPassword } from './app/utilities.js';
 
 const app = express();
 app.use(cors());
@@ -29,13 +32,12 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) =>{
         console.log(file);
-        console.log(path.extname(file.originalname));
-        return cb(null, `${Date.now()}_${path.extname(file.originalname)}`);
+        return cb(null, `${Date.now()}_${file.originalname}`);
     }
 });
 
 const upload = multer({
-    storage: storage
+    storage
 });
 
 app.get('/:entity', async (req, res) =>{
@@ -272,7 +274,49 @@ app.delete('/:entity/:id',async (req, res)=>{
     res.status(204).send('No data found!');
 });
 
-app.listen(process.env.SERVER_PORT, () =>{
-    console.log('Server is running on ' + process.env.SERVER_PORT);
-    console.log(`Listening on http://localhost:${process.env.SERVER_PORT}/`);
+app.post('/register',async ( req, res ) =>{
+    const { AdminUserName, AdminEmail, AdminPassword, AdminFullName, AdminRole, AdminProfilePicture, AdminContact } = req.body;
+    if(!AdminUserName || !AdminEmail || !AdminPassword || !AdminFullName || !AdminRole || !AdminProfilePicture || !AdminContact){
+        res.status(423).send('Please provide all the details');
+        return;
+    }
+    const hash = await hashPassword(AdminPassword);
+    const { data, success, error } = await registerUser(AdminUserName, AdminEmail, hash, AdminFullName, AdminRole, AdminProfilePicture, AdminContact);
+    if(error){
+        res.status(500).send(error + ': Error Occurred while Registering Users');
+        return;
+    }
+    if(data && success){
+        res.status(201).send(data);
+        return;
+    }
+    res.status(423).send('User already exists by this partial credentials!!');
+});
+
+app.post('/login', async ( req, res ) =>{
+    const { AdminUserName, AdminPassword } = req.body;
+    if(!AdminUserName || !AdminPassword){
+        res.status(423).send('Please provide all the details');
+        return;
+    }
+    const { user, validate, error } = await validateLogin(AdminUserName, AdminPassword);
+    if(error){
+        res.status(500).send(error + ': Error Occurred while Logging In');
+        return;
+    }
+    if(!user){
+        res.status(423).send('User doesn\'t exist!!');
+        return;
+    }
+    if(validate){
+        res.status(200).send('Welcome ' + user.AdminUserName);
+        return;
+    }
+    res.status(423).send('Password doesn\'t match!!');
+});
+
+const port = process.env.SERVER_PORT || 3001;
+app.listen(port, () =>{
+    console.log('Server is running on ' + port);
+    console.log(`Listening on http://localhost:${port}/`);
 });

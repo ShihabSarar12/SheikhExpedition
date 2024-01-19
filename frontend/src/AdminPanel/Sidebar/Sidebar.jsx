@@ -117,13 +117,14 @@ export function SidebarItem({ icon, text, active, alert, to }) {
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
             z-10 
         `}
-                    >
-                        {renderLinkOrSpan(text)}
-                    </div>
-                )}
-            </li>
-        </Link>
-    );
+        >
+          {/* TODO have to fix dom nesting the bug is under this comment */}
+          {renderLinkOrSpan(text)}
+        </div>
+      )}
+    </li>
+    </Link>
+  );
 }
 
 // className={` ${

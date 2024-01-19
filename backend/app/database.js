@@ -1,5 +1,6 @@
 import mysql from 'mysql2';
 import dotenv from 'dotenv';
+import { hashMatch } from './utilities.js';
 
 dotenv.config();
 const pool = mysql.createPool({
@@ -382,6 +383,67 @@ const deleteSingle = async (entity, attribute, value) =>{
     }
 }
 
+const registerUser = async (adminUserName, adminEmail, hash, adminFullName, adminRole, adminProfilePicture, adminContact) =>{
+    try{
+        const [ userExist ] = await pool.query(`SELECT * FROM admins WHERE AdminUserName = ? OR AdminEmail = ? `, [ adminUserName, adminEmail ]);
+        if(userExist.length !== 0){
+            return {
+                data: null,
+                success: false,
+                error: null
+            };
+        }
+        const [ result ] = await pool.query(`INSERT INTO admins (AdminUserName, AdminPassword, AdminEmail, AdminFullName, AdminRole, AdminProfilePicture, AdminContact) VALUES ( ?, ?, ?, ?, ?, ?, ? );`, [ adminUserName, hash, adminEmail, adminFullName, adminRole, adminProfilePicture, adminContact ]);
+        const { insertId } = result;
+        const { data, success, error } = await getSingle('admins', 'AdminID', insertId);
+        if(error){
+            return {
+                data: null,
+                success,
+                error
+            }
+        }
+        return {
+            data,
+            success,
+            error: null
+        };
+    } catch(error) {
+        return {
+            data: null,
+            success: false,
+            error: error.code
+        }
+    }
+}
+
+const validateLogin = async (adminUserName, loginPassword) =>{
+    try{
+        const [ result ] = await pool.query(`SELECT * FROM admins WHERE AdminUserName = ?;`, [ adminUserName ]);
+        if(result.length === 0){
+            return {
+                data: null,
+                validate: false,
+                error: null
+            };
+        }
+        const user = result[0];
+        const { AdminPassword } = user;
+        const validate = await hashMatch(loginPassword, AdminPassword);
+        return {
+            user,
+            validate,
+            error: null
+        };
+    } catch(error){
+        return {
+            user: null,
+            validate: false,
+            error: error.code
+        }
+    }
+}
+
 export { 
     getAll, 
     getSingle, 
@@ -393,5 +455,7 @@ export {
     updateBlog,
     updateService,
     updateProject,
-    updateTeammember
+    updateTeammember,
+    registerUser,
+    validateLogin
 };
