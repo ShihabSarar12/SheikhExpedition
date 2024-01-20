@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Adminpanel from "../Adminpanel";
 import Dashboard from "../Dashboard/Dashboard";
 import Projects from "../Projects/Project";
-import Help from "../Help/Help";
 import Blogs from "../Blog/Blog";
 import Services from "../Services/Services";
 import ServiceItem from "../Services/ServiceItem";
@@ -13,8 +12,15 @@ import BlogDetails from "../Blog/BlogDetails";
 import AddBlog from "../Blog/AddBlog";
 import AddProject from "../Projects/AddProject";
 import AddMember from "../Member/AddMember";
+import Admins from "../Admins/Admins";
+import DefaultPage from "../DefaultPage/DefaultPage";
+import Login from "../Login/Login";
 
 export const routes = createBrowserRouter([
+    {
+        path: '/login',
+        element: <Login />
+    },
     {
         path: '/',
         element: <Adminpanel />,
@@ -25,7 +31,7 @@ export const routes = createBrowserRouter([
         },
         {
             path: '*',
-            element: <Help/> //TODO need to change this to no page found component
+            element: <DefaultPage /> //TODO need to change this to no page found component
         },
         {
             path: '/dashboard',
@@ -124,6 +130,13 @@ export const routes = createBrowserRouter([
                 return fetch(`http://localhost:8080/teammembers/${params.id}`);
             },
             element: <AddMember />,
+        },
+        {
+            path: '/admins',
+            loader: async () =>{
+                return fetch(`http://localhost:8080/admins`);
+            },
+            element: <Admins />
         }
         ]
     }
