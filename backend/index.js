@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import multer from 'multer';
-import path from 'path';
+
 import {
     deleteSingle, 
     getAll, 
@@ -19,26 +18,13 @@ import {
     validateLogin
 } from './app/database.js';
 import { hashPassword } from './app/utilities.js';
+import { upload } from './app/fileUpload.js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) =>{
-        console.log(file);
-        return cb(null, 'pictures');
-    },
-    filename: (req, file, cb) =>{
-        console.log(file);
-        return cb(null, `${file.originalname}`);
-    }
-});
-
-const upload = multer({
-    storage
-});
 
 app.get('/:entity', async (req, res) =>{
     const { entity } = req.params;
@@ -308,7 +294,7 @@ app.post('/login', async ( req, res ) =>{
         return;
     }
     if(validate){
-        res.status(200).send('Welcome ' + user.AdminUserName);
+        res.status(200).json(user);
         return;
     }
     res.status(423).send('Password doesn\'t match!!');

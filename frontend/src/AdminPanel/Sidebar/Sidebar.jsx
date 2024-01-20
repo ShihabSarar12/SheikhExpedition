@@ -23,7 +23,7 @@ export default function Sidebar({ children }) {
                         <Link to="/dashboard">
                             <img
                                 src={logo}
-                                className={`cursor-pointer duration-500 ${
+                                className={`cursor-pointer duration-500 w-5/6 ${
                                     expanded && 'rotate-[360deg]'
                                 }`}
                                 alt=""

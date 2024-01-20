@@ -5,8 +5,8 @@ import {
   Book,
   Folder,
   Users,
-  LifeBuoy,
   Settings,
+  User
 } from "lucide-react";
 
 const Navbar = () => {
@@ -32,16 +32,16 @@ const Navbar = () => {
         text="Team"
         to="/team-members"
       />
+      <SidebarItem
+        icon={<User size={20} />}
+        text="Admin"
+        to="/admins"
+      />
       <hr className="my-3" />
       <SidebarItem
         icon={<Settings size={20} />}
         text="Settings"
         to="/settings"
-      />
-      <SidebarItem
-        icon={<LifeBuoy size={20} />}
-        text="Help"
-        to="/help"
       />
     </Sidebar>
   );

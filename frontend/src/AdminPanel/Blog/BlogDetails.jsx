@@ -3,8 +3,8 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const BlogDetails = () => {
 
-    const blog = useLoaderData()
-    const navigate=useNavigate('')
+    const blog = useLoaderData();
+    const navigate=useNavigate('');
 
     const handleEdit = () => {
         const BlogID = blog.BlogID;
