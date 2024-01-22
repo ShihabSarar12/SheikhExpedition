@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import session from 'express-session';
 
 import {
     deleteSingle, 
@@ -20,12 +24,111 @@ import {
 import { hashPassword } from './app/utilities.js';
 import { upload } from './app/fileUpload.js';
 
-const app = express();
-app.use(cors());
-app.use(express.json());
 dotenv.config();
+const app = express();
+app.use(cors({
+    origin: [
+        'http://localhost:3000'
+    ],
+    methods: [ 'POST', 'GET' ],
+    credentials: true
+}));
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+//TODO have to change all the secret env variables
+app.use(session({
+    key: 'AdminID',
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60 * 60 * 24
+    }
+}));
 
 
+app.get('/', (req, res) =>{
+    res.status(200).json({
+        message: "Connected!!"
+    });
+});
+
+app.post('/login', async ( req, res ) =>{
+    const { AdminUserName, AdminPassword } = req.body;
+    if(!AdminUserName || !AdminPassword){
+        res.status(423).json({
+            status: 'Failed',
+            message: 'Please provide all the details'
+        });
+        return;
+    }
+    const { user, validate, error } = await validateLogin(AdminUserName, AdminPassword);
+    if(error){
+        res.status(500).json({
+            status: 'Failed',
+            message: error + ': Error Occurred while Logging In'
+        });
+        return;
+    }
+    if(!user){
+        res.status(423).json({
+            status: 'Failed',
+            message: 'User doesn\'t exist!!'
+        });
+        return;
+    }
+    if(validate){
+        req.session.user = user;
+        res.status(200).json({
+            status: 'Success',
+            user
+        });
+        return;
+    }
+    res.status(423).send({
+        status: 'Failed',
+        message: 'Password doesn\'t match!!'
+    });
+});
+
+app.get('/login', (req, res) =>{
+    if(req.session.user){
+        res.status(200).json({
+            loggedIn: true,
+            user: req.session.user
+        });
+        return;
+    }
+    res.status(200).json({
+        loggedIn: false
+    })
+});
+
+app.post('/register',async ( req, res ) =>{
+    const { AdminUserName, AdminEmail, AdminPassword, AdminFullName, AdminRole, AdminProfilePicture, AdminContact } = req.body;
+    if(!AdminUserName || !AdminEmail || !AdminPassword || !AdminFullName || !AdminRole || !AdminProfilePicture || !AdminContact){
+        res.status(423).send('Please provide all the details');
+        return;
+    }
+    const hash = await hashPassword(AdminPassword);
+    const { data, success, error } = await registerUser(AdminUserName, AdminEmail, hash, AdminFullName, AdminRole, AdminProfilePicture, AdminContact);
+    if(error){
+        res.status(500).send(error + ': Error Occurred while Registering Users');
+        return;
+    }
+    if(data && success){
+        res.status(201).send(data);
+        return;
+    }
+    res.status(423).send('User already exists by this partial credentials!!');
+});
+
+
+
+//TODO have to convert all response to json upon sending
 app.get('/:entity', async (req, res) =>{
     const { entity } = req.params;
     const { data, error } = await getAll(entity);
@@ -259,46 +362,6 @@ app.delete('/:entity/:id',async (req, res)=>{
     res.status(204).send('No data found!');
 });
 
-app.post('/register',async ( req, res ) =>{
-    const { AdminUserName, AdminEmail, AdminPassword, AdminFullName, AdminRole, AdminProfilePicture, AdminContact } = req.body;
-    if(!AdminUserName || !AdminEmail || !AdminPassword || !AdminFullName || !AdminRole || !AdminProfilePicture || !AdminContact){
-        res.status(423).send('Please provide all the details');
-        return;
-    }
-    const hash = await hashPassword(AdminPassword);
-    const { data, success, error } = await registerUser(AdminUserName, AdminEmail, hash, AdminFullName, AdminRole, AdminProfilePicture, AdminContact);
-    if(error){
-        res.status(500).send(error + ': Error Occurred while Registering Users');
-        return;
-    }
-    if(data && success){
-        res.status(201).send(data);
-        return;
-    }
-    res.status(423).send('User already exists by this partial credentials!!');
-});
-
-app.post('/login', async ( req, res ) =>{
-    const { AdminUserName, AdminPassword } = req.body;
-    if(!AdminUserName || !AdminPassword){
-        res.status(423).send('Please provide all the details');
-        return;
-    }
-    const { user, validate, error } = await validateLogin(AdminUserName, AdminPassword);
-    if(error){
-        res.status(500).send(error + ': Error Occurred while Logging In');
-        return;
-    }
-    if(!user){
-        res.status(423).send('User doesn\'t exist!!');
-        return;
-    }
-    if(validate){
-        res.status(200).json(user);
-        return;
-    }
-    res.status(423).send('Password doesn\'t match!!');
-});
 
 const port = process.env.SERVER_PORT || 3001;
 app.listen(port, () =>{
