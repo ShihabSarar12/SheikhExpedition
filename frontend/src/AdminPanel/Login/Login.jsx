@@ -20,6 +20,7 @@ const Login = () => {
         try{
             const response = await fetch(`http://localhost:8080/login`,{
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -27,7 +28,6 @@ const Login = () => {
             });
             if(!response.ok) throw new Error('Error fetching login credentials');
             const data = await response.json();
-            console.log(data);
             if(data) navigate('/');
         } catch(error){
             console.error(error);
@@ -52,7 +52,9 @@ const Login = () => {
                 type="password" 
                 placeholder='password' 
             />
-            <button type='submit' className='bg-slate-400 px-4 py-2 rounded-lg' >Submit</button>
+            <button type='submit' className='bg-slate-400 px-4 py-2 rounded-lg' >
+                Submit
+            </button>
         </form>
     );
 };
