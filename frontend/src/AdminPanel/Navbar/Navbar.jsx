@@ -1,50 +1,51 @@
-import React from "react";
-import Sidebar, { SidebarItem } from "../Sidebar/Sidebar";
+import React from 'react';
+import Sidebar, { SidebarItem } from '../Sidebar/Sidebar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  LayoutDashboard,
-  Book,
-  Folder,
-  Users,
-  Settings,
-  User
-} from "lucide-react";
+    faDashboard,
+    faBook,
+    faFolder,
+    faUsers,
+    faGear,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = () => {
-  return (
-    <Sidebar>
-      <SidebarItem
-        icon={<LayoutDashboard size={20} />}
-        text="Dashboard"
-        to="/dashboard"
-      />
-      <SidebarItem
-        icon={<Folder size={20} />}
-        text="Projects"
-        to="/projects"
-      />
-      <SidebarItem
-        icon={<Book size={20} />}
-        text="Blogs"
-        to="/blogs"
-      />
-      <SidebarItem
-        icon={<Users size={20} />}
-        text="Team"
-        to="/team-members"
-      />
-      <SidebarItem
-        icon={<User size={20} />}
-        text="Admin"
-        to="/admins"
-      />
-      <hr className="my-3" />
-      <SidebarItem
-        icon={<Settings size={20} />}
-        text="Settings"
-        to="/settings"
-      />
-    </Sidebar>
-  );
+    return (
+        <Sidebar>
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faDashboard} />}
+                text="Dashboard"
+                to="/dashboard"
+            />
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faFolder} />}
+                text="Projects"
+                to="/projects"
+            />
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faBook} />}
+                text="Blogs"
+                to="/blogs"
+            />
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faUsers} />}
+                text="Team"
+                to="/team-members"
+            />
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faUser} />}
+                text="Admin"
+                to="/admins"
+            />
+            <hr className="my-3" />
+            <SidebarItem
+                icon={<FontAwesomeIcon icon={faGear} />}
+                text="Settings"
+                to="/settings"
+            />
+        </Sidebar>
+    );
 };
 
 export default Navbar;

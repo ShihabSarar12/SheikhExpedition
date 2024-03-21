@@ -1,18 +1,20 @@
 import React, { useContext, createContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../Others/logo.png';
-import { ColorModeContext, useMode } from '../../theme';
-import { ChevronLast, ChevronFirst, MoreVertical } from 'lucide-react';
-import { ThemeProvider } from '@mui/material/styles';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faArrowLeft,
+    faArrowRight,
+    faGripLinesVertical,
+} from '@fortawesome/free-solid-svg-icons';
 
 const SidebarContext = createContext();
 
 export default function Sidebar({ children }) {
     const [expanded, setExpanded] = useState(true);
-    const [theme, colorMode] = useMode();
 
     return (
-        <ThemeProvider theme={theme}>
+        <div>
             <div
                 className={`h-screen ${
                     expanded ? 'w-64 duration-500' : 'w-16 duration-300'
@@ -33,7 +35,11 @@ export default function Sidebar({ children }) {
                             onClick={() => setExpanded(curr => !curr)}
                             className="p-1.5  rounded-lg bg-orange-300 hover:bg-orange-400"
                         >
-                            {expanded ? <ChevronFirst /> : <ChevronLast />}
+                            {expanded ? (
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            ) : (
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            )}
                         </button>
                     </div>
 
@@ -61,12 +67,12 @@ export default function Sidebar({ children }) {
                                     johndoe@gmail.com
                                 </span>
                             </div>
-                            <MoreVertical size={20} />
+                            <FontAwesomeIcon icon={faGripLinesVertical} />
                         </div>
                     </div>
                 </nav>
             </div>
-        </ThemeProvider>
+        </div>
     );
 }
 
@@ -78,7 +84,7 @@ export function SidebarItem({ icon, text, active, alert, to }) {
     };
 
     return (
-        <Link to={to} className="group">
+        <div to={to} className="group">
             <li
                 className={`
         flex  rounded-md p-4 cursor-pointer hover:bg-orange-400 text-black-300 text-semi-bold items-center gap-x-4 
@@ -117,14 +123,13 @@ export function SidebarItem({ icon, text, active, alert, to }) {
             group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
             z-10 
         `}
-        >
-          {/* TODO have to fix dom nesting the bug is under this comment */}
-          {renderLinkOrSpan(text)}
+                    >
+                        {renderLinkOrSpan(text)}
+                    </div>
+                )}
+            </li>
         </div>
-      )}
-    </li>
-    </Link>
-  );
+    );
 }
 
 // className={` ${

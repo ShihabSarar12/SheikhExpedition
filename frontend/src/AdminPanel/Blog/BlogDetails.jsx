@@ -1,10 +1,10 @@
-import { Pen, Trash } from 'lucide-react';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const BlogDetails = () => {
-
     const blog = useLoaderData();
-    const navigate=useNavigate('');
+    const navigate = useNavigate('');
 
     const handleEdit = () => {
         const BlogID = blog.BlogID;
@@ -13,12 +13,15 @@ const BlogDetails = () => {
 
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/blogs/${blog.BlogID}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await fetch(
+                `http://localhost:8080/blogs/${blog.BlogID}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 },
-            });
+            );
 
             if (response.ok) {
                 console.log('blog deleted successfully');
@@ -41,12 +44,12 @@ const BlogDetails = () => {
 
     return (
         <div className="p-4 mx-auto my-auto">
-              <div className="flex justify-end mb-4">
+            <div className="flex justify-end mb-4">
                 <button className="mx-2" onClick={handleEdit}>
-                    <Pen size={24} color="#4CAF50" />
+                    <FontAwesomeIcon icon={faPen} />
                 </button>
                 <button className="mx-2" onClick={handleDelete}>
-                    <Trash size={24} color="#F44336" />
+                    <FontAwesomeIcon icon={faTrash} />
                 </button>
             </div>
             <h1 className="text-2xl font-bold mb-4">{blog.BlogTitle}</h1>
@@ -56,7 +59,11 @@ const BlogDetails = () => {
 
             {blog.BlogImage && (
                 <div className="mt-4">
-                    <img src={blog.BlogImage} alt={blog.BlogTitle} style={{ maxWidth: '100%' }} />
+                    <img
+                        src={blog.BlogImage}
+                        alt={blog.BlogTitle}
+                        style={{ maxWidth: '100%' }}
+                    />
                 </div>
             )}
         </div>

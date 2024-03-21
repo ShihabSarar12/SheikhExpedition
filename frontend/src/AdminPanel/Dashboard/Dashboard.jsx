@@ -7,22 +7,20 @@ const Dashboard = () => {
     const [editMode, setEditMode] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() =>{
-        fetch(`http://localhost:8080/login`,{
-            credentials: 'include'
+    useEffect(() => {
+        fetch(`http://localhost:8080/login`, {
+            credentials: 'include',
         })
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                if(data.loggedIn){
+                if (data.loggedIn) {
                     setOwnerInfo(data.user);
-                }
-                else{
-                    //TODO fix rendering issues when it is redirecting even if cookie exists
+                } else {
                     navigate('/login');
                 }
             });
-    },[]);
+    }, []);
 
     const handleEditClick = () => {
         setEditMode(true);

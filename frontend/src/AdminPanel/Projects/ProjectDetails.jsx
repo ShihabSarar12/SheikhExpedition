@@ -1,6 +1,7 @@
-import { Pen, Trash } from 'lucide-react';
+import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import { useLoaderData,useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 
 const ProjectDetails = () => {
     const project = useLoaderData();
@@ -43,16 +44,16 @@ const ProjectDetails = () => {
         <div className="p-4 mx-auto my-auto">
             <div className="flex justify-end mb-4">
                 <button className="mx-2" onClick={handleEdit}>
-                    <Pen size={24} color="#4CAF50" />
+                    <FontAwesomeIcon icon={faPen} />
                 </button>
                 <button className="mx-2" onClick={handleDelete}>
-                    <Trash size={24} color="#F44336" />
+                    <FontAwesomeIcon icon={faTrash} />
                 </button>
             </div>
             <h1 className="text-2xl font-bold mb-4">{project.ProjectName}</h1>
             {project.ProjectImage && (
                 <img
-                src={`/assests/ProjectImages/${project.ProjectImage}`}
+                    src={`/assests/ProjectImages/${project.ProjectImage}`}
                     alt="Project"
                     className="max-w-full h-auto"
                 />
